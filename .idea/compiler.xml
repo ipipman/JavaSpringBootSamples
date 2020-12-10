@@ -6,27 +6,38 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="sb2-business-service" />
         <module name="springboot-seata-tcc-sample" />
-        <module name="sb2-storage-service" />
-        <module name="sb2-order-service" />
-        <module name="sb2-account-service" />
+        <module name="seata-at-storage-service" />
+        <module name="seata-at-order-service" />
+        <module name="seata-at-business-service" />
+        <module name="seata-at-account-service" />
+        <module name="hmily-tcc-account-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="hmily-tcc-account-service" target="1.8" />
       <module name="sb2-account-service" target="1.8" />
       <module name="sb2-business-service" target="1.8" />
       <module name="sb2-order-service" target="1.8" />
       <module name="sb2-storage-service" target="1.8" />
+      <module name="seata-at-account-service" target="1.8" />
+      <module name="seata-at-business-service" target="1.8" />
+      <module name="seata-at-order-service" target="1.8" />
+      <module name="seata-at-storage-service" target="1.8" />
       <module name="springboot-seata-tcc-sample" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="hmily-tcc-account-service" options="-parameters" />
       <module name="sb2-account-service" options="-parameters" />
       <module name="sb2-business-service" options="-parameters" />
       <module name="sb2-order-service" options="-parameters" />
       <module name="sb2-storage-service" options="-parameters" />
+      <module name="seata-at-account-service" options="-parameters" />
+      <module name="seata-at-business-service" options="-parameters" />
+      <module name="seata-at-order-service" options="-parameters" />
+      <module name="seata-at-storage-service" options="-parameters" />
       <module name="springboot-seata-tcc-sample" options="-parameters" />
     </option>
   </component>

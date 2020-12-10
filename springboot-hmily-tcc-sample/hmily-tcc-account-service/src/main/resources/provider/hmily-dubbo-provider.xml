@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd" default-autowire="byName">
+
+    <dubbo:application name="tcc-sample"/>
+    <!--使用 zookeeper 注册中心暴露服务，注意要先开启 zookeeper-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+<!--    <dubbo:registry address="zookeeper://10.13.225.189:2181"/>-->
+
+    <dubbo:protocol name="dubbo" port="-1" />
+
+    <dubbo:provider timeout="10000"  threads="10" threadpool="fixed" loadbalance="roundrobin"/>
+
+    <!-- 第一个TCC 参与者服务发布 -->
+    <dubbo:service interface="com.ipman.hmily.tcc.springboot.dubbo.account.action.AccountService" ref="accountService"/>
+
+
+    <!--&lt;!&ndash; 第一个TCC参与者 服务订阅 &ndash;&gt;-->
+    <!--<dubbo:reference id="tccActionOne" interface="TccActionOne" check="false" lazy="true"/>-->
+
+    <!--&lt;!&ndash; 第二个TCC参与者 服务订阅 &ndash;&gt;-->
+    <!--<dubbo:reference id="tccActionTwo" interface="TccActionTwo" check="false" lazy="true"  />-->
+
+</beans>

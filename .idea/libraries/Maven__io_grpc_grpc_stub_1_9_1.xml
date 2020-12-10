@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.grpc:grpc-stub:1.9.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/io/grpc/grpc-stub/1.9.1/grpc-stub-1.9.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/io/grpc/grpc-stub/1.9.1/grpc-stub-1.9.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/io/grpc/grpc-stub/1.9.1/grpc-stub-1.9.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
