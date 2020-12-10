@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.opencensus:opencensus-api:0.17.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/io/opencensus/opencensus-api/0.17.0/opencensus-api-0.17.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/io/opencensus/opencensus-api/0.17.0/opencensus-api-0.17.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/io/opencensus/opencensus-api/0.17.0/opencensus-api-0.17.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

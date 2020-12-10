@@ -5,5 +5,6 @@
     <file url="file://$PROJECT_DIR$/springboot-seata-at-sample/sb2-business-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot-seata-at-sample/sb2-order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot-seata-at-sample/sb2-storage-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-seata-tcc-sample/src/main/java" charset="UTF-8" />
   </component>
 </project>

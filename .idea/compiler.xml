@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sb2-business-service" />
+        <module name="springboot-seata-tcc-sample" />
         <module name="sb2-storage-service" />
         <module name="sb2-order-service" />
         <module name="sb2-account-service" />
@@ -17,6 +18,7 @@
       <module name="sb2-business-service" target="1.8" />
       <module name="sb2-order-service" target="1.8" />
       <module name="sb2-storage-service" target="1.8" />
+      <module name="springboot-seata-tcc-sample" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -25,6 +27,7 @@
       <module name="sb2-business-service" options="-parameters" />
       <module name="sb2-order-service" options="-parameters" />
       <module name="sb2-storage-service" options="-parameters" />
+      <module name="springboot-seata-tcc-sample" options="-parameters" />
     </option>
   </component>
 </project>

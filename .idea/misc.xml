@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/springboot-seata-at-sample/sb2-storage-service/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-seata-at-sample/sb2-order-service/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-seata-at-sample/sb2-business-service/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-seata-tcc-sample/pom.xml" />
       </list>
     </option>
   </component>

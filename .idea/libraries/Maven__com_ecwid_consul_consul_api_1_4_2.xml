@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.ecwid.consul:consul-api:1.4.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/com/ecwid/consul/consul-api/1.4.2/consul-api-1.4.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/com/ecwid/consul/consul-api/1.4.2/consul-api-1.4.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.m2/repository/com/ecwid/consul/consul-api/1.4.2/consul-api-1.4.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

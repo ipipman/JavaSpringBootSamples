@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <!-- fescar bean scanner -->
+    <bean class="io.seata.spring.annotation.GlobalTransactionScanner">
+        <constructor-arg value="tcc-sample"/>
+        <constructor-arg value="my_test_tx_group"/>
+    </bean>
+
+    <bean id="tccActionOneImpl" class="com.ipman.seata.tcc.springboot.dubbo.action.impl.TccActionOneImpl"/>
+
+    <bean id="tccActionTwoImpl" class="com.ipman.seata.tcc.springboot.dubbo.action.impl.TccActionTwoImpl"/>
+
+    <bean id="tccTransactionService" class="com.ipman.seata.tcc.springboot.dubbo.service.TccTransactionService"/>
+
+</beans>
