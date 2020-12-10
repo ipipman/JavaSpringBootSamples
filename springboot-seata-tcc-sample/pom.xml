@@ -9,11 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ipman.seata.tcc.springboot</groupId>
-    <artifactId>dubbo</artifactId>
+    <artifactId>springboot-seata-tcc-sample</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-seata-tcc-sample</name>
     <description>Demo project for Spring Boot</description>
-
 
     <properties>
         <java.version>1.8</java.version>
