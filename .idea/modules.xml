@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/JavaSpringBootSamples.iml" filepath="$PROJECT_DIR$/.idea/JavaSpringBootSamples.iml" />
-      <module fileurl="file://$PROJECT_DIR$/springboot-hmily-tcc-sample/hmily-tcc-account-service/hmily-tcc-account-service.iml" filepath="$PROJECT_DIR$/springboot-hmily-tcc-sample/hmily-tcc-account-service/hmily-tcc-account-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-atomikos-xa-sample/src/main/java/java.iml" filepath="$PROJECT_DIR$/springboot-atomikos-xa-sample/src/main/java/java.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-account-service/seata-at-account-service.iml" filepath="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-account-service/seata-at-account-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-business-service/seata-at-business-service.iml" filepath="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-business-service/seata-at-business-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-order-service/seata-at-order-service.iml" filepath="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-order-service/seata-at-order-service.iml" />

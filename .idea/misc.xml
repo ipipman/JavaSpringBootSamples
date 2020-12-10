@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-order-service/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-storage-service/pom.xml" />
         <option value="$PROJECT_DIR$/sprintboot-hmily-tcc-sample/hmily-tcc-account-service/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-atomikos-xa-sample/src/main/java/pom.xml" />
       </list>
     </option>
   </component>

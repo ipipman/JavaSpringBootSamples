@@ -10,12 +10,13 @@
         <module name="seata-at-storage-service" />
         <module name="seata-at-order-service" />
         <module name="seata-at-business-service" />
+        <module name="java" />
         <module name="seata-at-account-service" />
-        <module name="hmily-tcc-account-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="hmily-tcc-account-service" target="1.8" />
+      <module name="java" target="1.8" />
       <module name="sb2-account-service" target="1.8" />
       <module name="sb2-business-service" target="1.8" />
       <module name="sb2-order-service" target="1.8" />
@@ -30,6 +31,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="hmily-tcc-account-service" options="-parameters" />
+      <module name="java" options="-parameters" />
       <module name="sb2-account-service" options="-parameters" />
       <module name="sb2-business-service" options="-parameters" />
       <module name="sb2-order-service" options="-parameters" />
