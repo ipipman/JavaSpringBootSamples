@@ -8,5 +8,6 @@
     <file url="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-storage-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot-seata-tcc-sample/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot-shardingsphere-jdbc-sample/src/main/java" charset="UTF-8" />
   </component>
 </project>

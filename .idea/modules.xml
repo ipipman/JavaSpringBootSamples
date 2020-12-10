@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-order-service/seata-at-order-service.iml" filepath="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-order-service/seata-at-order-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot-seata-at-sample/seata-at-storage-service/seata-at-storage-service.iml" filepath="$PROJECT_DIR$/springboot-seata-at-sample/seata-at-storage-service/seata-at-storage-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot-seata-tcc-sample/springboot-seata-tcc-sample.iml" filepath="$PROJECT_DIR$/springboot-seata-tcc-sample/springboot-seata-tcc-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-shardingsphere-jdbc-sample/springboot-shardingsphere-jdbc-sample.iml" filepath="$PROJECT_DIR$/springboot-shardingsphere-jdbc-sample/springboot-shardingsphere-jdbc-sample.iml" />
     </modules>
   </component>
 </project>

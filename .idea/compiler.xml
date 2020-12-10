@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="springboot-seata-tcc-sample" />
-        <module name="seata-at-storage-service" />
+        <module name="springboot-shardingsphere-jdbc-sample" />
         <module name="seata-at-order-service" />
         <module name="seata-at-business-service" />
         <module name="java" />
+        <module name="springboot-seata-tcc-sample" />
+        <module name="seata-at-storage-service" />
         <module name="seata-at-account-service" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
       <module name="seata-at-order-service" target="1.8" />
       <module name="seata-at-storage-service" target="1.8" />
       <module name="springboot-seata-tcc-sample" target="1.8" />
+      <module name="springboot-shardingsphere-jdbc-sample" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -41,6 +43,7 @@
       <module name="seata-at-order-service" options="-parameters" />
       <module name="seata-at-storage-service" options="-parameters" />
       <module name="springboot-seata-tcc-sample" options="-parameters" />
+      <module name="springboot-shardingsphere-jdbc-sample" options="-parameters" />
     </option>
   </component>
 </project>
