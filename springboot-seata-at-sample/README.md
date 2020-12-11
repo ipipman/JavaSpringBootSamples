@@ -191,6 +191,7 @@ store {
 ##### 4.启动四个SpringBoot项目，注意数据库和Seata服务的IP与端口配置，进行测试
 
 > 测试事务提交成功场景：curl -X POST http://127.0.0.1:8084/api/business/purchase/commit
+>
 > 测试事务回滚成功场景：http://127.0.0.1:8084/api/business/purchase/rollback
 
 
