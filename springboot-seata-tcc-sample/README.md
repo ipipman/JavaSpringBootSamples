@@ -112,7 +112,7 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
     public boolean commit(BusinessActionContext actionContext);
 
     /**
-     * 第三个阶段：回滚阶段
+     * 第二个阶段：回滚阶段
      *
      * @param actionContext
      * @return
@@ -181,7 +181,7 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
 ###### 3.测试流程:
 > - 步骤一，运行SeataServerStarter（程序会在本地启动Seata Server服务）
 > - 步骤二，运行SpringbootTccProviderApplication（程序会在本地使用Curator包自动启动Zookeeper服务，并启动Dubbo完成两个服务注册）
-> - 步骤三，运行SpringbootTccTransactionApplication（程序会消费Dubbo的两个服务，自行运行Seata-TCC的分布式事务提交demo和分布式事务回滚demo）
+> - 步骤三，运行SpringbootTccTransactionApplication（程序会消费Dubbo的两个服务，运行Seata-TCC的分布式事务提交demo和分布式事务回滚demo）
 
 ------------
 
