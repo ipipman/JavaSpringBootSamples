@@ -198,6 +198,75 @@ store {
 > 测试事务回滚成功场景：http://127.0.0.1:8084/api/business/purchase/rollback
 
 
+##### 5. Seata-AT模式实战：因篇幅有限，只对核心代码进行说明
+
+###### 5.1 在所有分支事务设置全局事务XID：Seata的事务上下文由RootContext来管理。应用开启全局事务后，所有的分支事务都必须绑定这个全局的XID。当事务结束（提交或回滚完成），RootContext会自动解绑XID。另外RootContext是基于ThreadLocal线程安全的。（本次测试是在SpringBoot使用的是HTTP方式，所以才需要通过HTTP过滤器手动进行绑定XID。如果是Dubbo或SpringCloud环境，则框架层自动绑定）
+
+```java
+@Component
+public class SeataFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
+        String xid = req.getHeader(RootContext.KEY_XID.toLowerCase());
+        boolean isBind = false;
+        if (StringUtils.isNotBlank(xid)) {
+            //绑定全局事务XID（Global Transaction）
+            RootContext.bind(xid);
+            isBind = true;
+        }
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } finally {
+            if (isBind) {
+                RootContext.unbind();
+            }
+        }
+    }
+
+    @Override
+    public void destroy() {
+    }
+}
+```
+
+###### 5.2 开启AT全局事务：在Seata中AT模式和TCC模式一样，业务方需要使用@GlobalTransactional注解来开启全局事务（Global Transaction），会初始化GlobalTransactionInterceptor拦截器，开启一个全局事务，获取全局的事务ID（即RootContext.getXID()）
+
+```java
+@Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired(required = false)})
+public class BusinessService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BusinessService.class);
+
+    private final StorageClient storageClient;
+
+    private final OrderClient orderClient;
+
+    /**
+     * 开启分布式全局事务，完成（减库存，下订单）操作
+     *
+     * @param userId
+     * @param commodityCode
+     * @param orderCount
+     */
+    @GlobalTransactional
+    @SneakyThrows
+    public void purchase(String userId, String commodityCode, int orderCount) {
+        LOGGER.info("purchase begin ... xid: " + RootContext.getXID());
+        storageClient.deduct(commodityCode, orderCount);
+        orderClient.create(userId, commodityCode, orderCount);
+    }
+}
+
+```
+
+
 ------------
 
 

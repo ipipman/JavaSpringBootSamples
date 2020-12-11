@@ -23,7 +23,7 @@ public class BusinessService {
     private final OrderClient orderClient;
 
     /**
-     * 减库存，下订单
+     * 开启分布式全局事务，完成（减库存，下订单）操作
      *
      * @param userId
      * @param commodityCode
