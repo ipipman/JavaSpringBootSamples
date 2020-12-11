@@ -77,8 +77,10 @@ Seata-AT通过全局锁的方式，实现读写隔离
 ------------
 
 ### Seata-AT实战
+
 ##### 1.实现一个交易业务（Bussiness），需要库存服务（Stroage）、订单服务（Order）和用户服务（Account）
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/681607659883_.pic.jpg" width = "600" height = "320" alt="图片名称" align=center />
+ 
 ###### 在SprintBoot下运行，本文并没有使用RPC的方式，而是在HTTP请求头中透传XID的方式实现的，代码如下：
 > - seata-at-account-service
 > - seata-at-bussiness-service
@@ -186,6 +188,14 @@ store {
 
 
 ##### 4.启动四个SpringBoot项目，注意数据库和Seata服务的IP与端口配置，进行测试
-> 测试成功场景：curl -X POST http://127.0.0.1:8084/api/business/purchase/commit
-> 测试事务回滚场景：http://127.0.0.1:8084/api/business/purchase/rollback
 
+> 测试事务提交成功场景：curl -X POST http://127.0.0.1:8084/api/business/purchase/commit
+> 测试事务回滚成功场景：http://127.0.0.1:8084/api/business/purchase/rollback
+
+
+------------
+
+
+### 柔性事务TCC、AT、SAGA模式总结
+
+![https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png](https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png "https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png")
