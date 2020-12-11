@@ -158,11 +158,14 @@ CREATE TABLE `undo_log` (
 
 -  解压Seata
 > yum install unzip -y
+>
 > unzip -o seata-server-1.0.0.zip
+>
 > cd  seata-server-1.0.0
 
 -  修改配置
 > vi ./conf/file.conf
+>
 > 使用file模式
 ```shell
 service {
