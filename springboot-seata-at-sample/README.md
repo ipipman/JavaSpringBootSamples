@@ -46,11 +46,12 @@ Seata AT 事务模型包含了：TM（事务管理器），RM（资源管理器�
 
 ##### Seata管理分布式事务的生命周期
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/671607656675_.pic_hd.jpg" width = "600" height = "320" alt="图片名称" align=center />
-1. TM要求TC开始一个全局事务
-2. TC生成一个代表该全局事务的XID
-3. XID贯穿于微服务的整个调用链
-4. TM要求TC提交或回滚XID对应的全局事务
-5. TC驱动XID对应的全局事务下的所有分支事务完成提交和回滚
+ 
+1.  TM要求TC开始一个全局事务
+2.  TC生成一个代表该全局事务的XID
+3.  XID贯穿于微服务的整个调用链
+4.  TM要求TC提交或回滚XID对应的全局事务
+5.  TC驱动XID对应的全局事务下的所有分支事务完成提交和回滚
 
 ------------
 
@@ -76,7 +77,7 @@ Seata-AT通过全局锁的方式，实现读写隔离
 
 ------------
 
-### Seata-AT实战
+### 4.Seata-AT实战
 
 ##### 1.实现一个交易业务（Bussiness），需要库存服务（Stroage）、订单服务（Order）和用户服务（Account）
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/681607659883_.pic.jpg" width = "600" height = "320" alt="图片名称" align=center />
@@ -196,6 +197,6 @@ store {
 ------------
 
 
-### 柔性事务TCC、AT、SAGA模式总结
+### 5.柔性事务中TCC、AT、SAGA模式总结
 
 ![https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png](https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png "https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png")
