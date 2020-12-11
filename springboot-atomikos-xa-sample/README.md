@@ -3,12 +3,14 @@
 ### 一.什么是XA事务？
 
 ##### 1.XA协议定义
+
 > - 基于一个强一致的思路，就有了基于数据库本身支持的协议，XA分布式事务。
+>
 > - XA整体设计思路可以概括为，如何在现有事务模型上微调扩展，实现分布式事务。
  
 ##### 2.XA协议成员
   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/711607681004_.pic_hd.jpg" width = "600" height = "240" alt="图片名称" align=center />
-  
+
 > - 应用程序(Application Program ，简称 AP):用于定义事务边界(即定义事务的开始和 结束)，并且在事务边界内对资源进行操作。
 >
 > - 资源管理器(Resource Manager，简称 RM):如数据库、文件系统等，并提供访问资源 的方式
@@ -17,8 +19,9 @@
 
 ##### 3.XA协议接口
   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/721607681013_.pic_hd.jpg" width = "400" height = "450" alt="图片名称" align=center />
-  
+
 ###### 3.1XA也是2PC（两阶段）的，第一阶段（xa_start、xa_end），第二阶段（xa_prepare、xa_commit、xa_rollback）
+
 > - xa_start :负责开启或者恢复一个事务分支
 >
 > - xa_end: 负责取消当前线程与事务分支的关联
@@ -40,7 +43,7 @@
 
 ##### 5 MySQL XA事务状态
   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/751607681057_.pic_hd.jpg" width = "800" height = "500" alt="图片名称" align=center />
-  
+
 > - SQL执行完成后进入XA_END状态
 >
 > - XA_END状态可以进入XA_PREPARE状态
