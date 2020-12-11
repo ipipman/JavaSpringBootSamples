@@ -1,6 +1,6 @@
 # BASE柔性事务AT模式之Seata分布式事务框架
 
-### 1.什么是BASE柔性事务？
+### 一.什么是BASE柔性事务？
 
 ##### 如果将实现了ACID的事务要素的称为刚性事务的话（如数据库的分布式事务XA协议），那么基于BASE事务要素的事务则称为柔性事务。
 > BASE是基于可用、柔性状态和最终一致性这三个要素
@@ -29,13 +29,13 @@
 
 ------------
 
-### 2.柔性事务的AT模式定义
+### 二.柔性事务的AT模式定义
 ##### AT模式就是两阶段提交，自动生成反向SQL
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/641607656083_.pic_hd.jpg" width = "600" height = "230" alt="图片名称" align=center />
 
 ------------
 
-### 3.Seata柔性事务框架
+### 三.Seata柔性事务框架
 Seata是阿里开源的分布式框架，目前在分布式事务领域中应用最为广泛。
 Seata AT 事务模型包含了：TM（事务管理器），RM（资源管理器）和TC（事务协调器）。
 > - TC是一个独立部署的服务，TM和RM以jar包的方式同业务应用一同部署，它们同TC建立长连接，在整个事务生命周期内，保持远程通信。
@@ -55,7 +55,7 @@ Seata AT 事务模型包含了：TM（事务管理器），RM（资源管理器�
 
 ------------
 
-##### Seata-AT原理
+##### Seata-AT模式原理
 
 ###### 1.Seata-AT的两阶段
 
@@ -77,12 +77,12 @@ Seata-AT通过全局锁的方式，实现读写隔离
 
 ------------
 
-### 4.Seata-AT实战
+### 四.Seata-AT模式实战
 
 ##### 1.实现一个交易业务（Bussiness），需要库存服务（Stroage）、订单服务（Order）和用户服务（Account）
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/681607659883_.pic.jpg" width = "600" height = "320" alt="图片名称" align=center />
  
-###### 在SprintBoot下运行，本文并没有使用RPC的方式，而是在HTTP请求头中透传XID的方式实现的，代码如下：
+###### 在SpringBoot下运行，本文并没有使用RPC的方式，而是在HTTP请求头中传递XID的方式实现的，代码如下：
 > - seata-at-account-service
 > - seata-at-bussiness-service
 > - seata-at-stroage-service
@@ -152,7 +152,7 @@ CREATE TABLE `undo_log` (
 ------------
 
 
-##### 3.安装Seata
+##### 3.安装Seata Server
 - 下载Seata
 > wget https://github.com/seata/seata/releases/download/v1.0.0/seata-server-1.0.0.zip
 
@@ -187,11 +187,11 @@ store {
   }
 }
 ```
--  启动Seata
+-  启动Seata Server
 > sh ./bin/seata-server.sh
 
 
-##### 4.启动四个SpringBoot项目，注意数据库和Seata服务的IP与端口配置，进行测试
+##### 4.启动四个SpringBoot项目，注意项目中application.properties里相关数据库和Seata服务的IP与端口配置，开始测试
 
 > 测试事务提交成功场景：curl -X POST http://127.0.0.1:8084/api/business/purchase/commit
 >
@@ -201,6 +201,6 @@ store {
 ------------
 
 
-### 5.柔性事务中TCC、AT、SAGA模式总结
+### 五.柔性事务中TCC、AT、SAGA模式总结
 
 ![https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png](https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png "https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/Base%E6%9F%94%E6%80%A7%E4%BA%8B%E5%8A%A1.png")
