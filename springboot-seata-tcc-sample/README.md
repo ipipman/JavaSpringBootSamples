@@ -88,7 +88,8 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
 
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/32361607671705_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
-###### Seata-TCC模式事件的核心代码简述
+###### Seata-TCC模式实战：核心代码
+
 1.TCC注册分支事务：@TwoPhaseBusinessAction注解释用于标注这是一个TCC接口，会初始化TccActionInterceptor拦截器，用于注册分支事务（Branch Transaction）
 ```java
     /**
