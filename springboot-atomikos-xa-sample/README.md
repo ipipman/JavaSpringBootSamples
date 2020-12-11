@@ -8,54 +8,76 @@
  
 ##### 2.XA协议成员
   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/711607681004_.pic_hd.jpg" width = "600" height = "240" alt="图片名称" align=center />
+  
 > - 应用程序(Application Program ，简称 AP):用于定义事务边界(即定义事务的开始和 结束)，并且在事务边界内对资源进行操作。
+>
 > - 资源管理器(Resource Manager，简称 RM):如数据库、文件系统等，并提供访问资源 的方式
+>
 > - 事务管理器(Transaction Manager ，简称 TM):负责分配事务唯一标识，监控事务的执行 进度，并负责事务的提交、回滚等。
 
 ##### 3.XA协议接口
   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/721607681013_.pic_hd.jpg" width = "400" height = "450" alt="图片名称" align=center />
+  
 ###### 3.1XA也是2PC（两阶段）的，第一阶段（xa_start、xa_end），第二阶段（xa_prepare、xa_commit、xa_rollback）
 > - xa_start :负责开启或者恢复一个事务分支
+>
 > - xa_end: 负责取消当前线程与事务分支的关联
+>
 > - xa_prepare:询问 RM 是否准备好提交事务分支
+>
 > - xa_commit:通知 RM 提交事务分支
+>
 > - xa_rollback: 通知 RM 回滚事务分支
+>
 > - xa_recover : 需要恢复的 XA 事务
 
 ##### 4.Mysql中对XA协议的支持
 ###### 4.1 MySQL 从5.0.3开始支持InnoDB引擎的 XA 分布式事务，MySQL Connector/J 从5.0.0版本开始支持XA。（Mysql5.7以下版本XA是不安全的，如Mysql5.6断开SQL连接后，XA会自动回滚，导致无法重连补偿）
-   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/731607681029_.pic_hd.jpg" width = "800" height = "220" alt="图片名称" align=center />
+  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/731607681029_.pic_hd.jpg" width = "800" height = "220" alt="图片名称" align=center />
    
 ###### 4.2 在 DTP 模型中，MySQL 属于资源管理器(RM)。分布式事务中存在多个 RM，由事务管理器 TM 来统一进行协调。
-   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/741607681043_.pic_hd.jpg" width = "800" height = "180" alt="图片名称" align=center />
+  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/741607681043_.pic_hd.jpg" width = "800" height = "180" alt="图片名称" align=center />
 
 ##### 5 MySQL XA事务状态
-   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/751607681057_.pic_hd.jpg" width = "800" height = "500" alt="图片名称" align=center />
+  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/751607681057_.pic_hd.jpg" width = "800" height = "500" alt="图片名称" align=center />
+  
 > - SQL执行完成后进入XA_END状态
+>
 > - XA_END状态可以进入XA_PREPARE状态
+>
 > - XA_PREPARE状态可以进入XA_COMMIT和XA_ROLLBACK状态
+>
 > - XA事务和本地事务的开启是互斥的，不能同时进行
 
 ##### 6 XA事务失败了怎么办？
 > - **业务SQL执行过程中，某个RM崩溃怎么处理？**
+>
 >     如果在start和end阶段报错，还未到prepare阶段，TM会回滚全部XA事务.
+>
 > - **全部prepare后，某个RM崩溃怎么处理？**
+>
 >     TM等待RM恢复后，重新连接，再次提交.
+>
 > - **commit时，某个RM崩溃时如何处理？**
+>
 >     没有好办法，通过Recover重试或人工.
 
 ##### 7 XA协议可能会存在的问题
 > - **同步阻塞问题**
+>
 >     多台Mysql中Commit的速度是不一致的，在多个XA事务并发的场景下可能会存在脏数据
+>
 >     如果一定要保证全局事务一致性，需要调整隔离级别为串行话（Serializable）
+>
 > - **数据不一致**
+>
 >     极端情况下，一定有事务失败问题，需要监控和人工处理
 
 ------------
 
 ### 二.XA框架
 ##### 目前XA应用较为广泛的是Atomikos框架
-   <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/761607681074_.pic_hd.jpg" width = "800" height = "320" alt="图片名称" align=center />
+  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/761607681074_.pic_hd.jpg" width = "800" height = "320" alt="图片名称" align=center />
    
 ### 三.Atomikos-XA框架实战
 ##### 1.SQL准备工作，创建两个数据库和相应的表结构
