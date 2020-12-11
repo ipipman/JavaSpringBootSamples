@@ -88,6 +88,95 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
 
  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/32361607671705_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
+###### Seata-TCC模式事件的核心代码简述
+1.TCC注册分支事务：@TwoPhaseBusinessAction注解释用于标注这是一个TCC接口，会初始化TccActionInterceptor拦截器，用于注册分支事务（Branch Transaction）
+```java
+    /**
+     * 第一个阶段：准备阶段
+     *
+     * @param actionContext
+     * @param a
+     * @return
+     */
+    @TwoPhaseBusinessAction(name = "DubboTccActionOne", commitMethod = "commit", rollbackMethod = "rollback")
+    public boolean prepare(BusinessActionContext actionContext,
+                           @BusinessActionContextParameter(paramName = "a") int a);
+
+    /**
+     * 第二个阶段：提交操作
+     *
+     * @param actionContext
+     * @return
+     */
+    public boolean commit(BusinessActionContext actionContext);
+
+    /**
+     * 第三个阶段：回滚阶段
+     *
+     * @param actionContext
+     * @return
+     */
+    public boolean rollback(BusinessActionContext actionContext);
+```
+
+2.开启TCC全局事务：在Seata中TCC模式和AT模式一样，业务方需要使用@GlobalTransactional注解来开启全局事务（Global Transaction），会初始化GlobalTransactionInterceptor拦截器，开启一个全局事务，获取全局的事务ID（即RootContext.getXID()）
+```java
+    /**
+     * 分布式事务提交demo
+     *
+     * @return
+     */
+    @GlobalTransactional
+    public String doTransactionCommit() {
+        //第一个TCC 事务参与者
+        boolean result = tccActionOne.prepare(null, 1);
+        if (!result) {
+            throw new RuntimeException("TccActionOne failed.");
+        }
+        List<String> list = new ArrayList<>();
+        list.add("c1");
+        list.add("c2");
+
+        //第二个TCC 事务参与者
+        result = tccActionTwo.prepare(null, "two", list);
+        if (!result) {
+            throw new RuntimeException("TccActionTwo failed.");
+        }
+
+        //此时两个TCC参与者的prepare方法都执行成功了，TC就会触发这两个TCC参与者的commit方法进行提交
+        return RootContext.getXID();
+    }
+
+    /**
+     * 分布式事务回滚demo
+     *
+     * @param map
+     * @return
+     */
+    @GlobalTransactional
+    public String doTransactionRollback(Map<String, String> map) {
+        //第一个TCC 事务参与者
+        boolean result = tccActionOne.prepare(null, 1);
+        if (!result) {
+            throw new RuntimeException("TccActionOne failed.");
+        }
+        List<String> list = new ArrayList<>();
+        list.add("c1");
+        list.add("c2");
+
+        //第二个TCC 事务参与者
+        result = tccActionTwo.prepare(null, "two", list);
+        if (!result) {
+            throw new RuntimeException("TccActionTwo failed.");
+        }
+        map.put("xid", RootContext.getXID());
+
+        //这里故意抛出异常，TC会触发这两个TCC参与者的rollback方法进行回滚
+        throw new RuntimeException("transacton rollback");
+    }
+
+```
+
 ###### 执行流程:
 > - 步骤一，运行SeataServerStarter（程序会在本地启动Seata Server服务）
 > - 步骤二，运行SpringbootTccProviderApplication（程序会在本地使用Curator包自动启动Zookeeper服务，并启动Dubbo完成两个服务注册）

@@ -15,7 +15,7 @@ import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 public interface TccActionOne {
 
     /**
-     * 设置两阶段提交中
+     * 第一个阶段：准备阶段
      *
      * @param actionContext
      * @param a
@@ -25,8 +25,20 @@ public interface TccActionOne {
     public boolean prepare(BusinessActionContext actionContext,
                            @BusinessActionContextParameter(paramName = "a") int a);
 
+    /**
+     * 第二个阶段：提交操作
+     *
+     * @param actionContext
+     * @return
+     */
     public boolean commit(BusinessActionContext actionContext);
 
+    /**
+     * 第三个阶段：回滚阶段
+     *
+     * @param actionContext
+     * @return
+     */
     public boolean rollback(BusinessActionContext actionContext);
 
 }

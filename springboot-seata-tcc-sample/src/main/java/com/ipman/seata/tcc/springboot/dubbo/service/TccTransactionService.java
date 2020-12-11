@@ -29,7 +29,7 @@ public class TccTransactionService {
     private TccActionTwo tccActionTwo;
 
     /**
-     * 发起分布式事务
+     * 分布式事务提交demo
      *
      * @return
      */
@@ -43,15 +43,19 @@ public class TccTransactionService {
         List<String> list = new ArrayList<>();
         list.add("c1");
         list.add("c2");
+
+        //第二个TCC 事务参与者
         result = tccActionTwo.prepare(null, "two", list);
         if (!result) {
             throw new RuntimeException("TccActionTwo failed.");
         }
+
+        //此时两个TCC参与者的prepare方法都执行成功了，TC就会触发这两个TCC参与者的commit方法进行提交
         return RootContext.getXID();
     }
 
     /**
-     * 回滚分布式事务
+     * 分布式事务回滚demo
      *
      * @param map
      * @return
@@ -66,13 +70,15 @@ public class TccTransactionService {
         List<String> list = new ArrayList<>();
         list.add("c1");
         list.add("c2");
+
+        //第二个TCC 事务参与者
         result = tccActionTwo.prepare(null, "two", list);
         if (!result) {
             throw new RuntimeException("TccActionTwo failed.");
         }
         map.put("xid", RootContext.getXID());
 
-        //这里故意抛出异常
+        //这里故意抛出异常，TC会触发这两个TCC参与者的rollback方法进行回滚
         throw new RuntimeException("transacton rollback");
     }
 
