@@ -262,3 +262,5 @@ public class XATransactionService {
 ##### 4.运行AtomikosFrameApplication查看测试结果
 
 
+### 四.分布式事务XA总结
+![https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/XA%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1.png](https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/XA%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1.png "https://raw.githubusercontent.com/ipipman/JavaKnowledge/master/XT/XA%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1.png")
