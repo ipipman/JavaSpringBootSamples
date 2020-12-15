@@ -69,6 +69,9 @@
 
 ### 三、如何使用Thrift？
 ####  1.在使用Thrift框架前，需要先针对业务设计IDL描述文件，然后生成对应的Java接口文件后完成对应的接口实现类。
+
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/821608019224_.pic.jpg" width = "600" height = "400" alt="图片名称" align=center />
+
 ##### IDL语法参考：[http://zanphpdoc.zanphp.io/nova/IDL_syntax.html](http://zanphpdoc.zanphp.io/nova/IDL_syntax.html "http://zanphpdoc.zanphp.io/nova/IDL_syntax.html")
 ```java
 //定义代码生成后存放的位置
