@@ -5,6 +5,7 @@
 ##### 用户通过Thrift的IDL（接口定义语言）来描述接口函数及数据类型的定义，然后通过Thrift生成各种语言的接口文件进行开发；
 
 ##### Thrift支持多种传输协议格式
+
 > - TbinaryProtocol 二进制格式；
 >
 > - TCompactProtocol 压缩格式；
@@ -16,6 +17,7 @@
 > - TDebugProtocol 可读的文件格式，以便于debug
 
 ##### Thrift支持多种数据传输方式
+
 > - TSokect - 阻塞式Sokect；
 >
 > - TFramedTransport  已Frame为单位进行传输，非阻塞式服务中使用；
@@ -37,40 +39,44 @@
 
 ##### TSimpleServer单线程服务模型
 
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/811607996045_.pic_hd.jpg" width = "580" height = "340" alt="图片名称" align=center />
+
 > - TSimpleServer是一个单线程阻塞I/O的Server，它循环监听新请求的到来并 对请求进行处理；
 >
 > - TSimpleServer一次只能接受处理一个Sokect连接，效率低，一般用于调试和学习；
 
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/811607996045_.pic_hd.jpg" width = "580" height = "340" alt="图片名称" align=center />
-
-
 ##### TNonblockingServer单线程非阻塞I/O模型
+
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/781607995925_.pic_hd.jpg" width = "540" height = "760" alt="图片名称" align=center />
 
 > - TNonblokingServer 是一个单线程NIO的Server，通过Selector循环监听所有Sokect，每次selector结束时，处理所有就绪的状态Sokect；
 >
 > - 虽然连接是NIO可以同时接收多个Sokect连接，但是处理任务时依然是阻塞的；
 
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/781607995925_.pic_hd.jpg" width = "540" height = "760" alt="图片名称" align=center />
 
 #### ThreadPoolServer多线程阻塞I/O模型
+
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/791607995943_.pic_hd.jpg" width = "600" height = "400" alt="图片名称" align=center />
 
 > - TThreadPoolServer模式采用阻塞Sokect方式工作，主线程负责阻塞监听是否有新的Sokect连接，业务交由一个线程池进行处理；
 >
 > - 该模式处理能力受限与线程池的处理能力，并发请求数大于线程数时会阻塞新的待处理请求；
 
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/791607995943_.pic_hd.jpg" width = "600" height = "400" alt="图片名称" align=center />
 
 #### THsHaServer
 
-> - THsHaServer是一个TNonbloking的子类，在TNonblockingServer模式中，采用一个线程处理所有Sokect监听和业务处理，造成效率地下，而THsHaServer模式使用了一个线程池来专门处理业务；
-
 <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/801607996017_.pic_hd.jpg" width = "580" height = "760" alt="图片名称" align=center />
+
+> - THsHaServer是一个TNonbloking的子类，在TNonblockingServer模式中，采用一个线程处理所有Sokect监听和业务处理，造成效率地下，而THsHaServer模式使用了一个线程池来专门处理业务；
 
 
 ### 三、如何使用Thrift？
 ####  1.在使用Thrift框架前，需要先针对业务设计IDL描述文件，然后生成对应的Java接口文件后完成对应的接口实现类。
 
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/821608019224_.pic.jpg" width = "600" height = "400" alt="图片名称" align=center />
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/thrift/821608019224_.pic.jpg" width = "580" height = "340" alt="图片名称" align=center />
+
+> - Stub（存根）：Stub是一段部署在分布式系统客户端代码，一方面接收应用层参数，并对其序列化后通过底层协议栈发送到服务端，另一方面接收服务端序列化后的结果数据，反序列化后交给客户端应用；
+> - Skeleton（骨架）：Skeleton部署在服务端其功能和Stub相反，从传输层接收序列化参数，反序列化后交给服务端应用层，并将应用层的执行结果系列化后最终传递给客户端Stub；
 
 ##### IDL语法参考：[http://zanphpdoc.zanphp.io/nova/IDL_syntax.html](http://zanphpdoc.zanphp.io/nova/IDL_syntax.html "http://zanphpdoc.zanphp.io/nova/IDL_syntax.html")
 ```java
