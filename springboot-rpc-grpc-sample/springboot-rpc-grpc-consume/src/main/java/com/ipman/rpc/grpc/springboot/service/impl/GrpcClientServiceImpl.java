@@ -33,5 +33,4 @@ public class GrpcClientServiceImpl implements IGrpcClientService {
         GreeterOuterClass.HelloReply response = stub.sayHello(GreeterOuterClass.HelloRequest.newBuilder().setName(name).build());
         return response.getMessage();
     }
-
 }
