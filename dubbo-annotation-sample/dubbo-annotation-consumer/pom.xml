@@ -8,10 +8,10 @@
 		<version>2.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ipman.sample.dubbo.anntation.consumer</groupId>
-	<artifactId>dubbo-anntation-consumer</artifactId>
+	<groupId>com.ipman.sample.dubbo.annotation.consumer</groupId>
+	<artifactId>dubbo-annotation-consumer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dubbo-anntation-consumer</name>
+	<name>dubbo-annotation-consumer</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
