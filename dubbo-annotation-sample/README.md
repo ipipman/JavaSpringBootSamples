@@ -33,6 +33,37 @@
 > - 服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复；
 
 ### Dubbo 工作原理
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/dubbo/1001608375467_.pic.jpg" width = "670" height = "620" alt="图片名称" align=center />
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/dubbo/1001608375467_.pic.jpg" width = "700" height = "640" alt="图片名称" align=center />
 
+##### Dubbo各层说明，除了Service和Config层为API，其它各层均为SPI
+> - 第一层：service层，接口层，给服务提供者和消费者来实现的；
+> - 第二层：config层，配置层，主要是对dubbo进行各种配置的；
+> - 第三层：proxy层，服务接口透明代理，生成服务的客户端Stub和服务端Skeleton；
+> - 第四层：registry层，服务注册层，负责服务的注册和发现；
+> - 第五层：cluster层，集群层，封装多个服务提供者的路由以及负载均衡，将多个实例组合成一个服务；
+> - 第六层：monitor层，监控层，对rpc接口的次数和调用时间进行监控；
+> - 第七层：protocol层，远程调用曾，分装rpc调用；
+> - 第八层：exchange层，信息交换层，分装请求相应模式，同步转异步；
+> - 第九层：transport层，网络传输层，抽象mina和netty为统一接口；
+> - 第十层：serialize层，数据序列化层，网络传输需要；
 
+##### Dubbo提供的负载均衡策略
+在集群负载均衡时，Dubbo提供了多种负载均衡策略，默认是Random随机调用
+1. Random LoadBalance
+	- 随机，按权重设计随机概率；
+	- 在一个截面上碰撞的机率高，但调用量越大分布越均匀；
+2. RoundRobin LoadBalance
+	- 轮询，按公约后的权重设置轮训比率；
+	- 存在慢的提供者累积请求的问题，比如：第二台机器很慢，但是没挂，当请求调用第二台时就卡在那，久而久之，所有的请求都在调到第二台上；
+3. LeastActive LoadBalance
+	- 最少活跃调用数，相同活跃数的随机，活跃数指调用前后计数差；
+	- 使慢的提供者收到更少的请求，因为越慢的提供者的调用前后计数差会越大；
+4. ConsistentHash LoadBalance
+	- 一致性Hash，相同参数的请求总是发到同一提供者
+
+##### Dubbo的健壮性
+1. 监控中心宕掉不影响使用，只是会丢失部分采集数据；
+2. 注册中心对等集群，任意一台宕掉后，将自动切换到另一台；
+3. 注册中心全部宕掉后，服务提供者和服务消费者仍然可以通过本地缓存列表进行通讯；
+4. 服务提供者无状态，任意一台宕掉后，不影响使用；
+5. 服务提供者全部宕机后，服务消费者应用将无法使用，并无限次数的重试等待服务提供者恢复；
