@@ -67,3 +67,110 @@
 3. 注册中心全部宕掉后，服务提供者和服务消费者仍然可以通过本地缓存列表进行通讯；
 4. 服务提供者无状态，任意一台宕掉后，不影响使用；
 5. 服务提供者全部宕机后，服务消费者应用将无法使用，并无限次数的重试等待服务提供者恢复；
+
+### Dubbo注解方式实战
+##### 1. 编写Provider端Hello服务
+```java
+@Service(version = AnnotationConstants.VERSION)
+public class HelloServiceImpl implements IHelloService {
+
+    /**
+     * Hello Service
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    public String sayHello(String name) {
+        System.out.println("provider received invoke of sayHello: " + name);
+        Thread.sleep(300);
+        return "Annotation, hello " + name;
+    }
+}
+```
+
+##### 2. 配置Dubbo的Provider端
+```java
+@Configuration
+@EnableDubbo(scanBasePackages = "com.ipman.sample.dubbo.annotation.service.impl")
+@PropertySource("classpath:/spring/dubbo-provider.properties")
+public class ProviderConfiguration {
+
+    @Bean
+    public ProviderConfig providerConfig() {
+        ProviderConfig providerConfig = new ProviderConfig();
+        providerConfig.setTimeout(1000);
+        return providerConfig;
+    }
+}
+```
+
+##### 3. 启动zookeeper，启动Dubbo的Provider端
+```java
+@SpringBootApplication
+public class DubboAnnotationProviderApplication {
+
+    private static TestingServer server;
+
+    @SneakyThrows
+    public static void main(String[] args) {
+        //开启ZK
+        DubboAnnotationProviderApplication.mockZKServer();
+
+        Thread.sleep(3000);
+
+        //开启Dubbo
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
+        context.start();
+    }
+
+    /**
+     * 启动本地ZK
+     *
+     * @throws Exception
+     */
+    private static void mockZKServer() throws Exception {
+        //Mock zk server，作为  配置中心
+        server = new TestingServer(2181, true);
+        server.start();
+    }
+}
+```
+
+##### 4.配置Dubbo的Consumer端
+```java
+@Configuration
+@EnableDubbo(scanBasePackages = "com.ipman.sample.dubbo.annotation.action")
+@PropertySource("classpath:/spring/dubbo-consumer.properties")
+@ComponentScan(value = "com.ipman.sample.dubbo.annotation.action")
+public class ConsumerConfiguration {
+
+}
+```
+
+##### 5.配置Consumer要消费的Provider服务
+```java
+@Component("annotationAction")
+public class AnnotationAction {
+
+    //消费者指定引用的提供者接口服务
+    @Reference(interfaceClass = IHelloService.class,
+            version = AnnotationConstants.VERSION,
+            timeout = 1000,
+            methods = {@Method(name = "sayHello", timeout = 3000, retries = 1)})
+    public IHelloService helloService;
+
+
+    //测试Provider
+    public String doSayHello() {
+        try {
+            return helloService.sayHello("ipman");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Throw Exception";
+        }
+    }
+}
+```
+

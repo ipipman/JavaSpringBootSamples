@@ -33,5 +33,4 @@ public class DubboAnnotationProviderApplication {
         server = new TestingServer(2181, true);
         server.start();
     }
-
 }

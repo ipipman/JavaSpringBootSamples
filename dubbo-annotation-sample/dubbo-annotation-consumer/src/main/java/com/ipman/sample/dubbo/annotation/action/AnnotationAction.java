@@ -2,6 +2,7 @@ package com.ipman.sample.dubbo.annotation.action;
 
 import com.ipman.sample.dubbo.annotation.service.AnnotationConstants;
 import com.ipman.sample.dubbo.annotation.service.IHelloService;
+import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,8 @@ public class AnnotationAction {
     //消费者指定引用的提供者接口服务
     @Reference(interfaceClass = IHelloService.class,
             version = AnnotationConstants.VERSION,
-            timeout = 1000)
-//            methods = {@Method(name = "sayHello", timeout = 3000, retries = 1)})
+            timeout = 1000,
+            methods = {@Method(name = "sayHello", timeout = 3000, retries = 1)})
     public IHelloService helloService;
 
 
