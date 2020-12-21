@@ -34,6 +34,5 @@ public class CacheConsumer {
 
         //对比结果：Flase，缓存失效
         System.out.println(value.equals(cacheService.findCache(0)));
-
     }
 }
