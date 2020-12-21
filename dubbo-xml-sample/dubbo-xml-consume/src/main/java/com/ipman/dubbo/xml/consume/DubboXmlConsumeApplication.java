@@ -1,7 +1,8 @@
-package com.ipman.dubbo.xml.consume.dubboxmlconsume;
+package com.ipman.dubbo.xml.consume;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 public class DubboXmlConsumeApplication {
