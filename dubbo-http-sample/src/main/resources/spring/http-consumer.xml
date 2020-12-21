@@ -16,4 +16,5 @@
     <dubbo:protocol name="http" id="http" port="${servlet.port:8080}" server="${servlet.container:tomcat}"/>
 
     <dubbo:reference id="demoServiceImpl" interface="com.ipman.dubbo.http.sample.api.DemoService" protocol="http"/>
+
 </beans>
