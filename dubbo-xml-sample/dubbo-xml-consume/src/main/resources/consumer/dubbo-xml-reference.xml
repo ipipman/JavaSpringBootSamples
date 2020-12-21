@@ -18,5 +18,4 @@
     <!-- 服务订阅 -->
     <dubbo:reference id="helloServiceImpl" interface="com.ipman.dubbo.xml.api.service.IHelloService"
                      check="false" lazy="true"/>
-
 </beans>

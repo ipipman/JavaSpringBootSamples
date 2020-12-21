@@ -17,5 +17,4 @@ public class DubboXmlConsumeApplication {
 		CallHelloService callHelloService = (CallHelloService) applicationContext.getBean("callHelloService");
 		callHelloService.doSayHello();
 	}
-
 }

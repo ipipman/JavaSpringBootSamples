@@ -30,5 +30,4 @@ public class DubboXmlProviderApplication {
         server = new TestingServer(2181, true);
         server.start();
     }
-
 }
