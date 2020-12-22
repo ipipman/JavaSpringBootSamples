@@ -1,6 +1,5 @@
 package com.ipman.dubbo.async.sample.api;
 
-import javax.sql.rowset.spi.SyncResolver;
 import java.util.concurrent.CompletableFuture;
 
 /**
