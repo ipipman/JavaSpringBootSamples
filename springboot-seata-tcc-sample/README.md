@@ -11,7 +11,7 @@
 ------------
 
 ##### 对比本地事务 -> XA(2PC) -> BASE
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/631607654308_.pic_hd.jpg" width = "600" height = "180" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/631607654308_.pic_hd.jpg" width = "600" height = "180" alt="图片名称" align=center />
  
  ------------
 
@@ -32,7 +32,7 @@
 ### 二.柔性事务的TCC模式定义
 ##### 什么是TCC？
 TCC不依赖RM对分布式事务的支持，而是通过对业务逻辑的分解来实现分布式事务，不同于AT的就是需要自行定义各个阶段的处理逻辑，对业务有浸入性
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/701607671822_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/701607671822_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
 ##### TCC模式将每个业务操作分为两个阶段
 > - 第一个阶段检查并预留相关资源
@@ -60,7 +60,7 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
 ------------
 
 ##### Seata管理分布式事务的生命周期
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/671607656675_.pic_hd.jpg" width = "600" height = "320" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/671607656675_.pic_hd.jpg" width = "600" height = "320" alt="图片名称" align=center />
  
 1.  TM要求TC开始一个全局事务
 2.  TC生成一个代表该全局事务的XID
@@ -74,7 +74,7 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
 
 ###### 1.Seata-TCC的两阶段
 
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/691607671761_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/691607671761_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
 全局事务是由若干分支事务组成的，分支事务要满足两阶段提交的模型要求，即需要每个分支事务都具备自己的:
 > - 一阶段：自定义prepare行为
@@ -86,7 +86,7 @@ Seata 事务模型包含了：TM（事务管理器），RM（资源管理器）�
 
 ###### 使用SpringBoot集成Duboo后注册两个服务，并且这两个服务都实现了Seata-TCC的两阶段性处理逻辑。（因为TCC模式并不依赖RM数据资源，所以这次测试并没有使用数据库）
 
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/32361607671705_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/32361607671705_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
 ##### Seata-TCC模式实战：因篇幅有限，只对核心代码进行说明
 

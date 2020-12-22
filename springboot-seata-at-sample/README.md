@@ -11,7 +11,7 @@
 ------------
 
 ##### 对比本地事务 -> XA(2PC) -> BASE
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/631607654308_.pic_hd.jpg" width = "600" height = "180" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/631607654308_.pic_hd.jpg" width = "600" height = "180" alt="图片名称" align=center />
  
  ------------
 
@@ -31,7 +31,7 @@
 
 ### 二.柔性事务的AT模式定义
 ##### AT模式就是两阶段提交，自动生成反向SQL
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/641607656083_.pic_hd.jpg" width = "600" height = "230" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/641607656083_.pic_hd.jpg" width = "600" height = "230" alt="图片名称" align=center />
 
 ------------
 
@@ -45,7 +45,7 @@ Seata AT 事务模型包含了：TM（事务管理器），RM（资源管理器�
 ------------
 
 ##### Seata管理分布式事务的生命周期
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/671607656675_.pic_hd.jpg" width = "600" height = "320" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/671607656675_.pic_hd.jpg" width = "600" height = "320" alt="图片名称" align=center />
  
 1.  TM要求TC开始一个全局事务
 2.  TC生成一个代表该全局事务的XID
@@ -59,7 +59,7 @@ Seata AT 事务模型包含了：TM（事务管理器），RM（资源管理器�
 
 ###### 1.Seata-AT的两阶段
 
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/651607656115_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/651607656115_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
 Seata-AT两阶段提交协议的演变:
 > - 一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源
@@ -69,7 +69,7 @@ Seata-AT两阶段提交协议的演变:
 
 ###### 2.Seata-AT如何实现多个事务的读写隔离
 
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/661607656128_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/661607656128_.pic_hd.jpg" width = "700" height = "400" alt="图片名称" align=center />
 
 Seata-AT通过全局锁的方式，实现读写隔离
 > - 本地锁控制本地操作
@@ -80,7 +80,7 @@ Seata-AT通过全局锁的方式，实现读写隔离
 ### 四.Seata-AT模式实战
 
 ##### 1.实现一个交易业务（Bussiness），需要库存服务（Stroage）、订单服务（Order）和用户服务（Account）
- <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/681607659883_.pic.jpg" width = "600" height = "320" alt="图片名称" align=center />
+ <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/681607659883_.pic.jpg" width = "600" height = "320" alt="图片名称" align=center />
  
 ###### 在SpringBoot下运行，本文并没有使用RPC的方式，而是在HTTP请求头中传递XID的方式实现的，代码如下：
 > - seata-at-account-service

@@ -5,7 +5,7 @@
 分布式意味着，一个业务被拆分多个业务，部署在不同服务器上，既然各个服务部署在不同的服务器上，那服务间的调用就是通过网络通信的。既然涉及到了网络通信，那么服务消费者调用服务之前，都要写各种网络请求和编解码之类的相关代码，明显是很不友好的，Dubbo所说的透明化，就是指让调用者对网络请求和编解码的细节透明，让我们像调用本地方法一样去调用远程方法。
 
 ### Dubbo的架构
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/dubbo/991608375409_.pic.jpg" width = "500" height = "320" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/991608375409_.pic.jpg" width = "500" height = "320" alt="图片名称" align=center />
 
 #### 上述节点说明
 > - Provider：暴露服务的服务提供方；
@@ -33,7 +33,7 @@
 > - 服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复；
 
 ### Dubbo 工作原理
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/dubbo/1001608375467_.pic.jpg" width = "700" height = "640" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1001608375467_.pic.jpg" width = "700" height = "640" alt="图片名称" align=center />
 
 #### Dubbo各层说明，除了Service和Config层为API，其它各层均为SPI
 > - 第一层：service层，接口层，给服务提供者和消费者来实现的；

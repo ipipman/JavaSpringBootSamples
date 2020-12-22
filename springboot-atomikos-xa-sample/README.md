@@ -9,7 +9,7 @@
 > - XA整体设计思路可以概括为，如何在现有事务模型上微调扩展，实现分布式事务。
  
 ##### 2.XA协议成员
-  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/711607681004_.pic_hd.jpg" width = "600" height = "240" alt="图片名称" align=center />
+  <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/711607681004_.pic_hd.jpg" width = "600" height = "240" alt="图片名称" align=center />
 
 > - 应用程序(Application Program ，简称 AP):用于定义事务边界(即定义事务的开始和 结束)，并且在事务边界内对资源进行操作。
 >
@@ -18,7 +18,7 @@
 > - 事务管理器(Transaction Manager ，简称 TM):负责分配事务唯一标识，监控事务的执行 进度，并负责事务的提交、回滚等。
 
 ##### 3.XA协议接口
-  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/721607681013_.pic_hd.jpg" width = "400" height = "450" alt="图片名称" align=center />
+  <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/721607681013_.pic_hd.jpg" width = "400" height = "450" alt="图片名称" align=center />
 
 ###### 3.1XA也是2PC（两阶段）的，第一阶段（xa_start、xa_end），第二阶段（xa_prepare、xa_commit、xa_rollback）
 
@@ -36,13 +36,13 @@
 
 ##### 4.Mysql中对XA协议的支持
 ###### 4.1 MySQL 从5.0.3开始支持InnoDB引擎的 XA 分布式事务，MySQL Connector/J 从5.0.0版本开始支持XA。（Mysql5.7以下版本XA是不安全的，如Mysql5.6断开SQL连接后，XA会自动回滚，导致无法重连补偿）
-  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/731607681029_.pic_hd.jpg" width = "800" height = "220" alt="图片名称" align=center />
+  <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/731607681029_.pic_hd.jpg" width = "800" height = "220" alt="图片名称" align=center />
    
 ###### 4.2 在 DTP 模型中，MySQL 属于资源管理器(RM)。分布式事务中存在多个 RM，由事务管理器 TM 来统一进行协调。
-  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/741607681043_.pic_hd.jpg" width = "800" height = "180" alt="图片名称" align=center />
+  <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/741607681043_.pic_hd.jpg" width = "800" height = "180" alt="图片名称" align=center />
 
 ##### 5 MySQL XA事务状态
-  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/751607681057_.pic_hd.jpg" width = "800" height = "500" alt="图片名称" align=center />
+  <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/751607681057_.pic_hd.jpg" width = "800" height = "500" alt="图片名称" align=center />
 
 > - SQL执行完成后进入XA_END状态
 >
@@ -80,7 +80,7 @@
 
 ### 二.XA框架
 ##### 目前XA应用较为广泛的是Atomikos框架
-  <img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/761607681074_.pic_hd.jpg" width = "800" height = "320" alt="图片名称" align=center />
+  <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/761607681074_.pic_hd.jpg" width = "800" height = "320" alt="图片名称" align=center />
    
 ### 三.Atomikos-XA框架实战
 ##### 1.SQL准备工作，创建两个数据库和相应的表结构
