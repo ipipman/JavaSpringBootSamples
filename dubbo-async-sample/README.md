@@ -33,7 +33,7 @@ Dubbo协议采用单一长连接，底层实现是Netty的NIO异步通讯机制�
 ### 异步调用
 给予Dubbo底层的异步NIO实现异步调用，对于Provider响应时间较长的场景是必须的，它能有效的利用Consumer的资源，相对于Consumer端使用多线程来说开销较小；
 
-<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/dubbo/8251608611495_.pic_P.jpg" width = "580" height = "300" alt="图片名称" align=center />
+<img src="https://raw.githubusercontent.com/ipipman/JavaSpringBootSamples/master/ReadmeMaterial/dubbo/8251608611495_.pic_P.jpg" width = "620" height = "300" alt="图片名称" align=center />
 
 ### Dubbo事件通知实战
 #### 1、定义CompletableFuture签名接口
