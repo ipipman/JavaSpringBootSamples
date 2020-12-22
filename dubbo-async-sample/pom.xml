@@ -8,10 +8,10 @@
 		<version>2.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ipman.dubbo.callback.sample</groupId>
-	<artifactId>dubbo-callback-sample</artifactId>
+	<groupId>com.ipman.dubbo.async.sample</groupId>
+	<artifactId>dubbo-async-sample</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dubbo-callback-sample</name>
+	<name>dubbo-async-sample</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
