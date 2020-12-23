@@ -8,10 +8,10 @@
 		<version>2.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ipman.dubbo.mock.sample</groupId>
-	<artifactId>dubbo-mock-sample</artifactId>
+	<groupId>com.ipman.dubbo.nacos.sample</groupId>
+	<artifactId>dubbo-nacos-sample</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dubbo-mock-sample</name>
+	<name>dubbo-nacos-sample</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -36,22 +36,15 @@
 			<version>2.7.7</version>
 		</dependency>
 
-		<!-- 内嵌 zk server -->
 		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-test</artifactId>
-			<version>2.9.1</version>
+			<groupId>org.apache.dubbo</groupId>
+			<artifactId>dubbo-registry-nacos</artifactId>
+			<version>2.7.7</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-recipes</artifactId>
-			<version>4.1.0</version>
 		</dependency>
 
 	</dependencies>
