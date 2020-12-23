@@ -1,0 +1,1 @@
+clusterLoadBalance=com.ipman.dubbo.spi.sample.spi.CustomConsumerLoadBalance
