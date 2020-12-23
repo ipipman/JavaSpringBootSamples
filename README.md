@@ -20,4 +20,5 @@
 - ##### [分布式服务框架Dubbo（本地调用）](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-local-sample "分布式服务框架Dubbo（本地调用）")
 - ##### [分布式服务框架Dubbo（隐式参数）](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-attachment-sample "分布式服务框架Dubbo（隐式参数）")
 - ##### [分布式服务框架Dubbo（Mock功能）](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-mock-sample "分布式服务框架Dubbo（mock功能）")
+- ##### [分布式服务框架Dubbo（SPI机制）](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-spi-sample "分布式服务框架Dubbo（SPI机制）")
 
