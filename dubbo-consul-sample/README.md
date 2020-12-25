@@ -33,5 +33,25 @@ CAP理论是分布式场景绕不开的重要理论
 当master节点因为网络故障与其他节点失去联系时，剩余节点会重新进行leader选举，问题在于，选举Leader的时间太长，30～120s，而且选举期间整个zk集群是不可用的，这就导致整个选举期间注册服务瘫痪。
 尤其在云部署环境下，因为网络问题使得ZK集群失去master节点是大概率事件，虽然服务能最终恢复，但是漫长的选举事件导致注册长期不可用是无法容忍的。
 
+#### Spring Cloud Eureka -> AP
+
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1091608888792_.pic_hd.jpg" width = "630" height = "350" alt="图片名称" align=center />
+
+Spring Cloud Netflix 在设计 Eureka的时候遵循的是AP
+Eureka Server 也可以运行多个实例来构建集群，解决单点问题，但不同于Zookeeper选举leader的过程，Eureka Server采用的是Peer to Peer对等通信。这是一种去中性化的架构，无mater/salve之分，没一个Peer都是对等的。在这种架构风格中，节点通过彼此相互注册来提高可用性，每个节点需要添加一个或多个有效的serviceUrl指向其他节点。每个节点都可以视为其它节点的副本。
+
+在集群环境中如果某台Eureka Server宕机，Eureka Client的请求会自动切换到新的Eureka Server节点上，当宕机的服务器重启恢复后，Eureka会再次将其纳入到服务器集群管理之中。当节点开始接受客户端请求时，所有的操作都会在集群中进行复制（replicate to peer）操作，将请求复制到该Eureka Server当前所知的所有节点上。
+
+当一个新的Eureka Server节点启动后，会首先尝试从相邻节点获取所有注册列表信息，并完成初始化。Eureka Server通过getEurekaServiceUrls()方法获取所有的节点，并且会通过心跳契约的方式定时更新。
+
+默认情况下，主要有一台Eureka还在，就能保证注册服务可用（保证可用性），只不过查到的信息可能不是最新的（不能保证强一致性）。除此之外，Eureka还有一种自我保护机制，如果在15分钟内超过85%的节点没有正常的心跳，那么Eureka就认为客户端与注册中心出现了网络故障，此时会出现以下几种情况：
+> - Eureka不再从注册表中移除因为长时间没有收到心跳的服务；
+> - Eureka仍然能够接受新服务注册和查询请求，但是不会被同步到其它节点上（既保证当前节点可用）；
+> - 当网络稳定时，当前实例新注册的信息会被同步到其它节点上；
+
+因此，Eureka可以很好的应对网络故障导致部分节点失去联系的情况，而不会像Zookeeper那样使得整个注册中心瘫痪。
+
+
+
 
 
