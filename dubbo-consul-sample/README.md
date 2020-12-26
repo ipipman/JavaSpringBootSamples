@@ -81,6 +81,21 @@ Eureka保证高可用（A）和最终一致性：
 
 另一方面，Eureka就是个Servlet程序，跑到Servlet容器中。Consul则是go编写而成。
 
+### Consul 内部原理
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1101608976609_.pic_hd.jpg" width = "700" height = "590" alt="图片名称" align=center />
+
+首先Consul支持多数据中心，如图上面有两个DataCenter，他们通过Intenet进行通信，为了提高通信效率，只有Server节点参与到了跨数据中心通信。
+在Consul单数据中心中，节点分为Master和Client两种（它们也称为Agent节点），Master节点用于存储数据，Client节点负责健康状态检查和转发数据请求给Master节点。
+Master节点采用Raft算法保证多个Master节点数据一致性，Master节点们分为一个Leader和多个Follower，Leader节点会将数据同步给所有的Follower节点，当Leader节点宕掉时会采用选举机制重新选举Leader节点，但是选举期间是不能提供服务的（也就是不能保证可用性）。
+
+集群内的Consul节点通过gossip协议维护成员关系，也就是说任一节点都能知道整个Consul集群中还有其他哪些节点，还包括这些节点的信息，如这个节点是Master节点还是Client节点。
+
+单个数据中心的gossip协议（流言协议），同时使用UDP和TCP进行通信，使用端口是8301。跨数据中心的gossip协议，也同时采用UDP和TCP协议进行通讯，使用端口是8302.
+
+集群的读写请求可以直接发给Server，也可以发给Client使用RPC转发给Master节点，这些请求最终会通过Mstaer节点同步给所有Leader节点上。集群内的数据读写和复制采用TCP的8300端口完成。
+
+
+
 
 
 
