@@ -6,8 +6,7 @@ CAP理论是分布式场景绕不开的重要理论
 > - 可用性：保证每个请求不管成功还是失败都有响应；
 > - 分区容忍性：系统中任意信息的丢失和失败不会影响系统的继续运作；
 
-![https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1081608882430_.pic_hd.jpg](https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1081608882430_.pic_hd.jpg "https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1081608882430_.pic_hd.jpg")
-<img src="" width = "400" height = "280" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1081608882430_.pic_hd.jpg" width = "400" height = "280" alt="图片名称" align=center />
 
 关于分区容忍性P的理解，大多数分布式系统都分布在多个子网络。每个子网络就叫做一个区（partition），分区容错的意思是，区间通信可能失败。比如，一台服务器放在中国，另一台服务器放在美国，这就是两个区，它们之间可能无法通信。
 
@@ -41,8 +40,7 @@ CAP理论是分布式场景绕不开的重要理论
 
 #### Spring Cloud Eureka -> AP
 
-![https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1091608888792_.pic_hd.jpg](https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1091608888792_.pic_hd.jpg "https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1091608888792_.pic_hd.jpg")
-<img src="" width = "630" height = "350" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1091608888792_.pic_hd.jpg" width = "630" height = "350" alt="图片名称" align=center />
 
 Spring Cloud Netflix 在设计 Eureka的时候遵循的是AP
 Eureka Server 也可以运行多个实例来构建集群，解决单点问题，但不同于Zookeeper选举leader的过程，Eureka Server采用的是Peer to Peer对等通信。这是一种去中性化的架构，无mater/salve之分，没一个Peer都是对等的。在这种架构风格中，节点通过彼此相互注册来提高可用性，每个节点需要添加一个或多个有效的serviceUrl指向其他节点。每个节点都可以视为其它节点的副本。
@@ -91,8 +89,7 @@ Eureka保证高可用（A）和最终一致性：
 另一方面，Eureka就是个Servlet程序，跑到Servlet容器中。Consul则是go编写而成。
 
 ### Consul 内部原理
-![https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1101608976609_.pic_hd.jpg](https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1101608976609_.pic_hd.jpg "https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1101608976609_.pic_hd.jpg")
-<img src="" width = "700" height = "590" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1101608976609_.pic_hd.jpg" width = "700" height = "590" alt="图片名称" align=center />
 
 首先Consul支持多数据中心，如图上面有两个DataCenter，他们通过Intenet进行通信，为了提高通信效率，只有Server节点参与到了跨数据中心通信。
 
@@ -170,8 +167,7 @@ consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-
 ```
 
 #### 3、查看控制台UI
-![https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg](https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg "https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg")
-<img src="" width = "800" height = "280" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg" width = "800" height = "280" alt="图片名称" align=center />
 
 ### SpringCloud集成Consul框架-实现注册中心实战
 
@@ -249,8 +245,7 @@ Hello ipman, response from provider: http://10.13.224.227:8081
 ```
 
 #### 6.查看服务是否注册到了Consul的Services中
-![https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1151609156805_.pic.jpg](https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1151609156805_.pic.jpg "https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1151609156805_.pic.jpg")
-<img src="" width = "800" height = "470" alt="图片名称" align=center />
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1151609156805_.pic.jpg" width = "800" height = "470" alt="图片名称" align=center />
 
 #### 7.通过Consul API列出给定服务中的节点
 **curl  -v -l http://10.211.55.8:8500/v1/catalog/service/consul-provider-service**
