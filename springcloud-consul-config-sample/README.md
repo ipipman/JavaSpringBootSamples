@@ -1,4 +1,4 @@
-# 分布式服务框架Dubbo集成Consul框架实现注册中心
+# SpringCloud集成Consul框架-实现配置中心
 
 ### 在讨论Consul之前，我们先讨论一下CAP理论
 CAP理论是分布式场景绕不开的重要理论
@@ -152,69 +152,5 @@ consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-
 #### 3、查看控制台UI
 <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg" width = "800" height = "280" alt="图片名称" align=center />
 
-### Dubbo 集成Consul注册中心
-Dubbo在高版本中已扩展了对Consul的支持。
-
-**1、添加Consul的API和Client依赖**
-```perl
-		<dependency>
-			<groupId>com.ecwid.consul</groupId>
-			<artifactId>consul-api</artifactId>
-			<version>1.4.5</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.orbitz.consul</groupId>
-			<artifactId>consul-client</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-```
-
-**2、通过HTTP API方式（端口8500）注册Dubbo Provider程序**
-```java
-<?xml version="1.0" encoding="UTF-8"?>
-
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-<context:property-placeholder/>
-
-    <dubbo:application name="consul-provider-demo"/>
-
-    <dubbo:protocol name="dubbo" host="10.211.55.2"/>
-
-    <dubbo:registry address="consul://${consul.address:10.211.55.8}:8500"/>
-    <!--<dubbo:registry address="consul://${consul.address:10.211.55.6}:8500?backup=10.211.55.7:8500,10.211.55.8:8500"/>-->
-
-    <bean id="demoService" class="com.ipman.dubbo.consul.sample.impl.DemoServiceImpl"/>
-
-    <dubbo:service interface="com.ipman.dubbo.consul.sample.api.DemoService" ref="demoService" />
-</beans>
-```
-
-**3、通过HTTP API方式（端口8500）注册Dubbo Consumer程序**
-```java
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:property-placeholder/>
-
-    <dubbo:application name="consul-consumer-demo"/>
-
-    <dubbo:registry address="consul://${consul.address:10.211.55.8}:8500"/>
-<!--    <dubbo:registry address="consul://${consul.address:10.211.55.6}:8500?backup=10.211.55.7:8500,10.211.55.8:8500"/>-->
-
-    <dubbo:reference scope="remote" id="demoService" check="true"
-                     interface="com.ipman.dubbo.consul.sample.api.DemoService"/>
-</beans>
-```
-
-**4、启动Dubbo程序进行测试，并在Consul控制台里查看效果**
-
-<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1131609123179_.pic.jpg" width = "800" height = "360" alt="图片名称" align=center />
-
+### SpringCloud集成Consul框架-实现配置中心实战
+Conusl提供了一个Key/Value Store
