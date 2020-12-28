@@ -98,15 +98,19 @@ Master节点采用Raft算法保证多个Master节点数据一致性，Master节�
 check必须是Script、HTTP、TCP、TTL四中类型的一种
 
 **Script Check**
+
 通过执行外部应用进行健康状态检查；
 
 **HTTP Check**
+
 这种检查将按照预设的时间间隔创建一个HTTP get请求，相应状态码必须为2XX系列，在SpringCloud中通常使用HTTP Check的方式；
 
 **TCP Check**
+
 根据设置的IP/端口创建一个TCP连接，连接成功为Success，失败是Critical状态；
 
 **TTL Check**
+
 这种Checks为给定的TTL保留了最后一种状态，Checks的状态必须通过HTTP接口周期性跟新状态，如果外部接口没有更新状态，那么状态就会被认为不正常；
 这种机制，在概念上类似“死人开关”，需要服务周期性汇报监控状态。在高版本的Dubbo中扩展了Consul使用的是TTL Check机制；
 
@@ -157,4 +161,98 @@ consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-
 <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg" width = "800" height = "280" alt="图片名称" align=center />
 
 ### SpringCloud集成Consul框架-实现配置中心实战
-Conusl提供了一个Key/Value Store
+Conusl提供了一个Key/Value Store可以用于动态配置；
+
+#### 1.添加Consul依赖，Springboot使用2.1.7版本（不同版本可能存在兼容问题，这个需要注意！）
+```java
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-consul-config</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+```
+
+#### 2.添加Spring环境配置（application.properties）、Consul配置（bootstrap.properties）
+**application.properties**
+```java
+spring.profiles.active=dev
+spring.application.name=consul-config
+server.port=8081
+```
+
+**bootstrap.properties**
+```java
+#配置consul地址
+spring.cloud.consul.host=10.211.55.8
+#配置consul端口
+spring.cloud.consul.port=8500
+#指定服务的 consul service name
+spring.cloud.consul.discovery.serviceName=consul-config
+#启动consul配置中心
+spring.cloud.consul.config.enabled=true
+#配置基本文件格式
+spring.cloud.consul.config.format=yaml
+#配置基本文件，默认值config
+spring.cloud.consul.config.prefix=config
+#profileSeparator设置用于使用配置文件在属性源中分隔配置文件名称的分隔符的值
+spring.cloud.consul.config.profile-separator=:
+#表示 consul 上面的 KEY 值(或者说文件的名字)，默认是 data
+spring.cloud.consul.config.data-key=data
+# 健康检查url
+spring.cloud.consul.discovery.health-check-url=http://10.211.55.2:8081/actuator/health
+# 健康检查的频率, 默认 10 秒
+spring.cloud.consul.discovery.health-check-interval=10s
+# 健康检查失败多长时间后，取消注册
+spring.cloud.consul.discovery.health-check-critical-timeout=5s
+```
+
+#### 3.配置Spring入口程序，开启@EnableDiscoveryClient注册服务
+```java
+@SpringBootApplication
+@EnableDiscoveryClient //让注册中心进行服务发现，将服务注册到服务组件上
+public class SpringcloudConsulConfigSampleApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringcloudConsulConfigSampleApplication.class, args);
+	}
+}
+```
+
+#### 4.添加配置实例，用@RefreshScope声明自动更新配置，当配置变更时，将会通过Spring Cloud Bus发送RefreshRemoteApplicationEvent事件给相关程序，在RefreshListener中，开始对于配置的刷新；
+```java
+@RestController
+@RequestMapping("/consul")
+@RefreshScope // 如果参数变化，自动刷新
+public class ConsulConfigCenterController {
+
+    @Value("${config.info}")
+    private String configInfo;
+
+    @GetMapping("/config/get")
+    public Object getItem() {
+        return configInfo;
+    }
+}
+```
+
+#### 5.配置Conusl的Key/Value Store功能，添加yarm配置
+创建目录：config/consul-config:dev/data（需要和bootstrap.properties配置的内容一致）
+
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1141609145146_.pic.jpg" width = "800" height = "480" alt="图片名称" align=center />
+
+#### 6.启动项目，进行测试
+```java
+% curl -i -l http://127.0.0.1:8081/consul/config/get
+HTTP/1.1 200 
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 19
+Date: Mon, 28 Dec 2020 08:49:36 GMT
+
+config info for dev
+```

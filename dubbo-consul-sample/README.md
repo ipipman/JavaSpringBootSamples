@@ -98,18 +98,21 @@ Master节点采用Raft算法保证多个Master节点数据一致性，Master节�
 check必须是Script、HTTP、TCP、TTL四中类型的一种
 
 **Script Check**
+
 通过执行外部应用进行健康状态检查；
 
 **HTTP Check**
+
 这种检查将按照预设的时间间隔创建一个HTTP get请求，相应状态码必须为2XX系列，在SpringCloud中通常使用HTTP Check的方式；
 
 **TCP Check**
+
 根据设置的IP/端口创建一个TCP连接，连接成功为Success，失败是Critical状态；
 
 **TTL Check**
+
 这种Checks为给定的TTL保留了最后一种状态，Checks的状态必须通过HTTP接口周期性跟新状态，如果外部接口没有更新状态，那么状态就会被认为不正常；
 这种机制，在概念上类似“死人开关”，需要服务周期性汇报监控状态。在高版本的Dubbo中扩展了Consul使用的是TTL Check机制；
-
 ### Consul 安装部署
 
 #### 1、下载与安装
