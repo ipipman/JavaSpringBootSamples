@@ -94,8 +94,115 @@ Master节点采用Raft算法保证多个Master节点数据一致性，Master节�
 
 集群的读写请求可以直接发给Server，也可以发给Client使用RPC转发给Master节点，这些请求最终会通过Mstaer节点同步给所有Leader节点上。集群内的数据读写和复制采用TCP的8300端口完成。
 
+### Consul 安装部署
 
+#### 下载与安装
+```perl
+//下载二进制包与解压
+wget https://releases.hashicorp.com/consul/1.5.1/consul_1.5.1_linux_amd64.zip
+unzip consul_1.5.1_linux_amd64.zip -d /usr/local/bin
 
+//修改变量环境信息
+vi /etc/profile
+export CONSUL_HOME=/usr/local/bin/consul
+export PATH=$PATH:CONSUL_HOME
 
+// 使用环境变量配置生效
+source /etc/profile
 
+//测试
+consul --version
+```
+
+#### 启动配置参数说明
+| 参数名称  | 用途  |
+| ------------ | ------------ |
+| -server  |  指定运行模式为服务器，每个Consul集群至少有1个Server，正常不超过5个 |
+| -client  | 表示Consul指定客户端的IP地址，默认127.0.0.1  |
+| -bootstrap-expect  | 预期服务器集群的数量  |
+| -data-dir  | 存储数据目录，该目录的数据在重启Consul后依然生效，目录需要赋予Consul启动用户权限  |
+| -node  | 当前服务器在集群中的名称，默认是服务器的名称  |
+| -ui  | 启动当前服务器内部的WebUI服务器和控制台界面  |
+| -join  | 指定当前服务器启动时，加入另一个代理服务器的地址  |
+
+**演示服务器：10.211.55.6，10.211.55.7，10.211.55.8**
+```perl
+//10.211.55.6
+consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-1 -client=0.0.0.0 -bind=10.211.55.6 -datacenter=dc1
+
+//10.211.55.7
+consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-2 -client=0.0.0.0 -bind=10.211.55.7 -datacenter=dc1 -join 10.211.55.6
+
+//10.211.55.8
+consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-3 -client=0.0.0.0 -bind=10.211.55.8 -datacenter=dc1 -join 10.211.55.6
+```
+
+#### 查看控制台UI
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg" width = "800" height = "280" alt="图片名称" align=center />
+
+### Dubbo 集成Consul注册中心
+Dubbo在高版本中已扩展了对Consul的支持。
+
+**1、添加Consul的API和Client依赖**
+```perl
+		<dependency>
+			<groupId>com.ecwid.consul</groupId>
+			<artifactId>consul-api</artifactId>
+			<version>1.4.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orbitz.consul</groupId>
+			<artifactId>consul-client</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+```
+
+**2、通过HTTP API方式（端口8500）注册Dubbo Provider程序**
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<context:property-placeholder/>
+
+    <dubbo:application name="consul-provider-demo"/>
+
+    <dubbo:protocol name="dubbo" host="10.211.55.2"/>
+
+    <dubbo:registry address="consul://${consul.address:10.211.55.8}:8500"/>
+    <!--<dubbo:registry address="consul://${consul.address:10.211.55.6}:8500?backup=10.211.55.7:8500,10.211.55.8:8500"/>-->
+
+    <bean id="demoService" class="com.ipman.dubbo.consul.sample.impl.DemoServiceImpl"/>
+
+    <dubbo:service interface="com.ipman.dubbo.consul.sample.api.DemoService" ref="demoService" />
+</beans>
+```
+
+**3、通过HTTP API方式（端口8500）注册Dubbo Consumer程序**
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
+
+    <dubbo:application name="consul-consumer-demo"/>
+
+    <dubbo:registry address="consul://${consul.address:10.211.55.8}:8500"/>
+<!--    <dubbo:registry address="consul://${consul.address:10.211.55.6}:8500?backup=10.211.55.7:8500,10.211.55.8:8500"/>-->
+
+    <dubbo:reference scope="remote" id="demoService" check="true"
+                     interface="com.ipman.dubbo.consul.sample.api.DemoService"/>
+</beans>
+```
+
+**4、启动Dubbo程序进行测试，并在Consul控制台里查看效果**
+
+<img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1131609123179_.pic.jpg" width = "800" height = "360" alt="图片名称" align=center />
 

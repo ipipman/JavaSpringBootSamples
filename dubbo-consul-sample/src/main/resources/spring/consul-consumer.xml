@@ -14,5 +14,4 @@
 
     <dubbo:reference scope="remote" id="demoService" check="true"
                      interface="com.ipman.dubbo.consul.sample.api.DemoService"/>
-
 </beans>
