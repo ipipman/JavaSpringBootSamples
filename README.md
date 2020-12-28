@@ -25,3 +25,6 @@
 - ##### [分布式服务框架Dubbo-SPI机制;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-spi-sample "分布式服务框架Dubbo（SPI机制）")
 - ##### [分布式服务框架Dubbo集成Nacos框架-实现注册中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-nacos-sample "分布式服务框架Dubbo集成Nacos框架-实现注册中心")
 - ##### [分布式服务框架Dubbo集成Consul框架-实现注册中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/dubbo-consul-sample "分布式服务框架Dubbo集成Consul框架-实现注册中心")
+
+### SpringCloud相关实例
+- ##### [SpringCloud集成Consul框架-实现配置中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-consul-config-sample "SpringCloud集成Consul框架-实现配置中心")
