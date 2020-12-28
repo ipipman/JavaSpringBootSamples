@@ -96,7 +96,7 @@ Master节点采用Raft算法保证多个Master节点数据一致性，Master节�
 
 ### Consul 安装部署
 
-#### 下载与安装
+#### 1、下载与安装
 ```perl
 //下载二进制包与解压
 wget https://releases.hashicorp.com/consul/1.5.1/consul_1.5.1_linux_amd64.zip
@@ -114,7 +114,7 @@ source /etc/profile
 consul --version
 ```
 
-#### 启动配置参数说明
+#### 2、启动配置参数说明
 | 参数名称  | 用途  |
 | ------------ | ------------ |
 | -server  |  指定运行模式为服务器，每个Consul集群至少有1个Server，正常不超过5个 |
@@ -137,7 +137,7 @@ consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-
 consul agent -server -ui -bootstrap-expect=3 -data-dir=/data/consul -node=agent-3 -client=0.0.0.0 -bind=10.211.55.8 -datacenter=dc1 -join 10.211.55.6
 ```
 
-#### 查看控制台UI
+#### 3、查看控制台UI
 <img src="https://ipman-blog-1304583208.cos.ap-nanjing.myqcloud.com/dubbo/1121609122338_.pic.jpg" width = "800" height = "280" alt="图片名称" align=center />
 
 ### Dubbo 集成Consul注册中心
