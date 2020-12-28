@@ -8,10 +8,10 @@
 		<version>2.1.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ipman.springcloud.consul.config.center.sample</groupId>
-	<artifactId>springcloud-consul-config-sample</artifactId>
+	<groupId>com.ipman.springcloud.consul.register.sample</groupId>
+	<artifactId>springcloud-consul-register-sample</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springcloud-consul-config-sample</name>
+	<name>springcloud-consul-register-sample</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -21,12 +21,24 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -36,9 +48,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-consul-config</artifactId>
-			<version>2.1.4.RELEASE</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 	</dependencies>
@@ -51,4 +62,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
