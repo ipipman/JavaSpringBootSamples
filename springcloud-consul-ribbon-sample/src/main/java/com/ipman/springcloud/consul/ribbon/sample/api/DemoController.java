@@ -25,6 +25,7 @@ public class DemoController {
     @Autowired
     private RestTemplate restTemplate;
 
+    //使用Ribbon全局维度的配置
     @GetMapping("/ribbon")
     public Object goService(String name) {
         return restTemplate.getForObject(serviceUrl + "/demo/hello?name={1}", String.class, name);

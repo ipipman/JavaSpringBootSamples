@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class SpringcloundConsulRibbonSampleApplication {
+public class SpringcloudConsulRibbonSampleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringcloundConsulRibbonSampleApplication.class, args);
+		SpringApplication.run(SpringcloudConsulRibbonSampleApplication.class, args);
 	}
 
 }
