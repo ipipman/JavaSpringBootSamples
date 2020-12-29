@@ -106,7 +106,7 @@ public interface IRule {
 ```
 #### Ribbon内置的负载均衡规则：
 | 规则名称  | 特点  |
-| ------------ | ------------ | ------------ |
+| ------------ | ------------ |
 | RandomRule   | 随机选择一个Server  |
 | RoundRobinRule   | 轮询选择，轮询index，选择index对应位置的Server  |
 | WeightedResponseTimeRule   | 根据响应时间加权，响应时间越长，权重越小，被选中的可能性越低  |
