@@ -19,8 +19,6 @@ import org.springframework.web.client.RestTemplate;
  * @Description: (用一句话描述该文件做什么)
  * @date 2020/12/29 10:56 上午
  */
-
-
 @Configuration
 //RibbonClients可以配置多个服务策略
 @RibbonClients({

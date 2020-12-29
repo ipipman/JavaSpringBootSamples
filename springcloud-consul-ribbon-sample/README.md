@@ -144,6 +144,12 @@ spring.cloud.consul.host=10.211.55.8
 spring.cloud.consul.port=8500
 #consul client注册名称
 spring.cloud.consul.discovery.service-name=${spring.application.name}
+# 健康检查url
+spring.cloud.consul.discovery.health-check-url=http://10.211.55.2:8308/actuator/health
+# 健康检查的频率, 默认 10 秒
+spring.cloud.consul.discovery.health-check-interval=10s
+# 健康检查失败多长时间后，取消注册
+spring.cloud.consul.discovery.health-check-critical-timeout=5s
 
 #需要启动provider服务：https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-consul-register-sample
 service.url.consul.provider.service=http://consul-provider-service
