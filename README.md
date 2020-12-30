@@ -33,3 +33,4 @@
 - ##### [SpringCloud集成Consul+Ribbon框架-实现注册中心和负载均衡;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-consul-ribbon-sample "SpringCloud集成Consul+Ribbon框架-实现注册中心和负载均衡")
 - ##### [SpringCloud集成Nacos框架-实现配置中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-nacos-config-sample "SpringCloud集成Nacos框架-实现配置中心")
 - ##### [SpringCloud集成Nacos框架-实现注册中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-nacos-register-sample "SpringCloud集成Nacos框架-实现注册中心")
+- ##### [SpringCloud集成Nacos+Ribbon框架-实现注册中心和负载均衡;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-nacos-ribbon-sample "SpringCloud集成Nacos+Ribbon框架-实现注册中心和负载均衡")
