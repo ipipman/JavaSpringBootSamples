@@ -11,5 +11,4 @@ public class SpringcloudNacosRegisterSampleApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringcloudNacosRegisterSampleApplication.class, args);
 	}
-
 }
