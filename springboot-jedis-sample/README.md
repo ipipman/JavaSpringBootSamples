@@ -62,7 +62,7 @@ RESP底层采用TCP的连接方式，通过TCP进行传输数据，根据解析�
 
 ------------
 
-##### Redis持久化
+#### Redis持久化
 持久化的作用，当Redis服务宕机或异常崩溃时，可以通过持久化文件进行数据恢复。
 
 ##### 1、RDB
@@ -103,4 +103,21 @@ AOF（Append Only File）持久化是把每次写的命令追加写入日志中�
 > - always：每次写入缓冲区都需要同步到AOF文件中，硬盘的操作比较慢，限制了Redis高并发；
 > - no：每次写入缓存区，不进行同步，同步到AOF文件的操作丢给操作系统负责，每次同步AOF文件周期不可控；
 > - eversec：每次写入缓存区都，由专门的线程每秒钟同步一次，做到了性能与数据安全的兼并；
+
+------------
+
+#### Redis集群
+Redis Cluster 是Redis 的分布式解决方案，在3.0版本推出后有效的解决了redis分布式方面的需求，自动将数据分片，每个master上放一部分数据，提供内置的高可用支持，部分master不可以时还是可以继续工作；
+
+**redis clsuter vs. master/slave + sentinal：**
+> - 主从+哨兵模式，一个master、多个slave，master负责读写，slave负责复制master数据和提供读服务，配合sentinal集群，可以保证master/slave故障自动切换时高可用；
+> - redis集群模式，主要针对海量数据+高并发+高可用场景；
+
+**Redis cluster的分片算法Hash Slot算法：**
+> - redis cluster有固定的16384个hash slot，对每个key计算CRC16值，然后对16384取模，可以获取key对应的hash slot；
+> - redis cluster中每个master都会持有部分slot，比如3个master，那么每个master就持有16384/3 ~= 5000多个hash slot；
+> - redis cluster中每个节点都会记录哪些槽指派给了自己，哪些槽位分配给了别的节点；
+> - 当客户端节点发送key命令时，负责接受的节点需要计算这个key属于那个槽，如果是自己负责的槽位直接执行，如果不是，想客户端返回一个MOVED错误，指引客户端转向正确的节点；
+
+
 
