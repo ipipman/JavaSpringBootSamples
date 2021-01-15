@@ -141,4 +141,10 @@ gossip协议包含多种消息，包括：ping、pong、meet、fail等：
 
 2、基于JedisCluster的原理，在JedisCluster初始化的时候，就会随机一个node，初始化hashslot -> node 映射表，同时为每个节点创建一个JedisPool连接池。每次基于JedisCluster执行操作，首先JedisCluster都会在本地计算key的hash slot，然后在本地映射表中找到对应的节点。如果redis cluster中的slot产生变化时，JedisCluster执行已经不存在那个node上的key，就会返回moved，那么利用该节点的元数据，更新hash slot -> node 映射表缓存；
 
+------------
+
+#### 字符串类型
+ 字符串是Redis中最常见的数据存储类型，其底层实现就是简单的动态字符串SDS（simple dynamic string），是可以修改的字符串。
+ 它类似Java中ArrayList，它采用预分配冗余空间的方式减少内存的频繁分配。
+ 当字符串长度小于1M时，扩容都是加倍现有的空间，如果超过1M，扩容时一次只会多扩容1M空间（字符串最大长度为512M）
 
