@@ -156,6 +156,32 @@ gossip协议包含多种消息，包括：ping、pong、meet、fail等：
 
 rehash是bucket(桶)为基本单位渐进式数据迁移的，每步完成一个bucket的迁移，直到数据迁移完毕，一个bucket对应哈希表中的一条entry链表。新版本的dictRehash()还加入一个最大访问空桶数(emptry_visits)的限制来进一步减少可能引起的阻塞时间；
 
+------------
+
+#### List列表
+Redis列表使用了两种数据结构做为底层实现
+> - 压缩列表：ZipList
+> - 双向列表：LinkedList
+
+因为双向链表占用内容比较高，所以在创建列表时，优先使用ZipList，当容量达到一定约束时转换为LinkedList
+> - 列表中新增一个字符串的长度大于64字节；
+> - 列表中节点的长度大于512个；
+
+ZipList是一个特殊的双向链表：
+特殊之处在于，没有维护双向指针：prev、next，而是存储上一个entry的长度和当前entry的长度，通过推算长度可以计算出下一个元素的位置；
+牺牲了可读性，获取了高效的存储空间，因为简单的字符串情况下，存储元素的指针比存储entry的长度更花费内存，这是典型的时间换空间例子；
+
+ZipList和LinkedList的优缺点：
+> - 双向链表LinkedList便于在表的两端进行push和pop操作，在插入节点上复杂度很低，但是它的内存消耗比较大，首先，它在每个节点上除了要保存数据之外，还要额外保存两个指针。其次双向链表的各个单独的内存块，地址不连续，节点多了很容易产生碎片；
+> - ZipList存储一段连续的内存上，所以存储效率很高。但是不方便于修改操作，插入和删除操作需要频繁的申请和释放内存。特别是ziplist长度很长的时候，一次realloc可能会导致大批量的数据拷贝；
+
+**Redis3.2后使用QuickList作为List存储结构：**
+可以认为QuickList是ziplist和linkedList的结合。quicklist是一个ziplist组成的双向链表，每个节点使用ziplist来保存数据。本上上说，quicklist里保存了一个一个的ziplist；
+
+QuickList是ZipList的一次封装，使用小块的zipList保证内存使用，也保证了性能：
+> - quicklist就是一个标准的双向链表的配置，有head和tail；
+> - 每个节点就是一个QuickListNode，包含prev和next指针；
+> - 每一个QuickListNode包含一个ZipList，zip压缩链表存储健值；
 
 
 
