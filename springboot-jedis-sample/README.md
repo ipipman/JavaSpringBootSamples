@@ -112,7 +112,7 @@ AOF（Append Only File）持久化是把每次写的命令追加写入日志中�
 **AOF同步策略**
 > - always：每次写入缓冲区都需要同步到AOF文件中，硬盘的操作比较慢，限制了Redis高并发；
 > - no：每次写入缓存区，不进行同步，同步到AOF文件的操作丢给操作系统负责，每次同步AOF文件周期不可控；
-> - eversec：每次写入缓存区都，由专门的线程每秒钟同步一次，做到了性能与数据安全的兼并；
+> - eversec：每次写入缓存区，由专门的线程每秒钟同步一次，做到了性能与数据安全的兼并；
 
 ------------
 
@@ -143,7 +143,7 @@ gossip算法如其名，灵感来自办公室的八卦，在有限的时间内�
 
 gossip协议包含多种消息，包括：ping、pong、meet、fail等：
 
-> - meet：当某个节点发送meet给新加入的节点，让新节点加入集群中，然后新节点就会开始茰其他节点进行通信；
+> - meet：当某个节点发送meet给新加入的节点，让新节点加入集群中，然后新节点就会开始跟其他节点进行通信；
 > - ping：每个节点都会频繁的给其他节点发ping，其中包含自己的状态还有自己维护的redis集群元数据信息，相互通过ping交换元数据；
 > - pong：返回ping和meet，包含自己的状态和其他信息，也可以用于信息广播和更新；
 > - fail：某个节点判断另一个节点fail之后，就发送fail给其他节点，通知其他节点指定的节点宕机了；
@@ -199,7 +199,7 @@ ZipList和LinkedList的优缺点：
 
 **Redis3.2后使用QuickList作为List存储结构：**
 
-可以认为QuickList是ziplist和linkedList的结合。quicklist是一个ziplist组成的双向链表，每个节点使用ziplist来保存数据。本上上说，quicklist里保存了一个一个的ziplist；
+可以认为QuickList是ziplist和linkedList的结合。quicklist是一个ziplist组成的双向链表，每个节点使用ziplist来保存数据。本质上说，quicklist里保存了一个一个的ziplist；
 
 QuickList是ZipList的一次封装，使用小块的zipList保证内存使用，也保证了性能：
 
@@ -221,7 +221,7 @@ Zset的两种实现方式，ZipList和SkipList（跳表）
 
 > - hashtable用来存储member到score的映射，这样就可以在O(1)时间找到member对应的分数；
 > - skiplist按从小到大的顺序存储分数；
-> - skip每个元素的值都是【score、value】对应；
+> - skiplist每个元素的值都是【score、value】对应；
 
 **SkipList的优势：**
 
@@ -255,6 +255,7 @@ Redis为每一个key维护了一个24位的时钟，同时也维护了一个全�
 **Redis中的LFU实现 ：**
 
 LRU是Redis4.0后出现的淘汰算法，LRU的最近最少使用实际上是不精确的，因为使用距离时间较最久的key，不代表是使用频率最少的key；
+
 如下图，按照LRU会淘汰A，因为B的访问时间比A更近，但是A的使用频率远超于B，理应淘汰B；
 ```asp
 A~~A~~A~~A~~A~~A~~A~~A~~A~~A~~~|
@@ -268,7 +269,10 @@ LFU把原先的key对象内部的24位时钟分为了两个部分，前16位还�
 ### Jedis原理介绍
 
 ##### Redis信协议
-Jedis Client是Redis官网推荐的一个面向Java的客户端，库文件实现了对Redis各类API进行封装调用。Redis-Cli与Server端使用一种专门为Redis设计的协议RESP(Redis Serialization Protocol)交互，RESP本身没有指定TCP，但是Redis的上下文只能使用TCP连接。
+Jedis Client是Redis官网推荐的一个面向Java的客户端，库文件实现了对Redis各类API进行封装调用。
+
+Redis-Cli与Server端使用一种专门为Redis设计的协议RESP(Redis Serialization Protocol)交互，RESP本身没有指定TCP，但是Redis的上下文只能使用TCP连接。
+
 Jedis通过RESP协议实现了与Redis服务端的通信，Jedis客户端本质上是通过Socket按照RESP协议与Redis通性。
 
 > - 用\r\n做间隔
@@ -334,10 +338,13 @@ mget name1 name2
 
 ##### Jedis连接池
 虽然基于内存的Redis数据库有着超高的性能，但是底层的网络通信却占用了一次数据请求的大量时间，因为每次数据交互需要先建立连接。
+
 在Jedis中每次new Jedis()都会创建新的TCP连接，使用后再断开连接，对于频繁访问Redis的场景显然不是高效的方式。
+
 Jedis连接池则可以实现在客户端建立多个连接并不释放，当需要使用连接的时候通过一定的算法获取已建立的连接，使用完了以后则还给连接池，这样可以减少Redis每次操作时创建新连接带来的IO消耗。
 
 客户端连接Redis使用的是TCP连接，直连的方式每次都要建立新的TCP连接，而连接池的方式是可以预先初始化好jedis连接，每次只需要从jedis连接池借用即可，借用和归还操作是在本地进行的，只有少量的并发同步开销，远远小于新建TCP连接的开销。
+
 此外，连接池的方式可以有效保护和控制资源的使用，而直连的方式无法限制jedis对象的个数，并且可能存在连接泄漏的情况。
 
 ##### SpringBoot集成Jedis-实现Redis调用实战
