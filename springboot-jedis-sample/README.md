@@ -183,6 +183,22 @@ QuickList是ZipList的一次封装，使用小块的zipList保证内存使用，
 > - 每个节点就是一个QuickListNode，包含prev和next指针；
 > - 每一个QuickListNode包含一个ZipList，zip压缩链表存储健值；
 
+------------
+
+#### Zset有序列表
+Zset的两种实现方式，ZipList和SkipList（跳表）
+1、ZipList：满足以下两个条件
+> - 元素数量小于128个数量时；
+> - 每个元素的长度小于64个字节；
+
+2、SkipList：不满足上述两个条件就会使用跳表，具体来说是组合了hashtable和skiplist
+> - hashtable用来存储member到score的映射，这样就可以在O(1)时间找到member对应的分数；
+> - skiplist按从小到大的顺序存储分数；
+> - skip每个元素的值都是【score、value】对应；
+
+**SkipList的优势：**
+SkipList本质上是并行的有序链表，但它克服了有序链表插入和查找性能不高的问题，它的插入和查询时间复杂度都是O(logN)
+
 
 
 
