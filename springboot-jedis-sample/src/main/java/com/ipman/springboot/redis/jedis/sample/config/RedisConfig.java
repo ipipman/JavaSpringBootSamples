@@ -27,18 +27,6 @@ public class RedisConfig {
     @Value("${spring.redis.timeout}")
     private int timeout;
 
-    @Value("${spring.redis.jedis.pool.max-idle}")
-    private int maxIdle;
-
-    @Value("${spring.redis.jedis.pool.max-wait}")
-    private long maxWaitMillis;
-
-    @Value("${spring.redis.password}")
-    private String password;
-
-    @Value("${spring.redis.block-when-exhausted}")
-    private boolean blockWhenExhausted;
-
     @Bean
     @ConfigurationProperties("redis")
     public JedisPoolConfig jedisPoolConfig() {
