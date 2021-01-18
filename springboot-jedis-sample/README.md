@@ -332,8 +332,121 @@ Jedis连接池则可以实现在客户端建立多个连接并不释放，当需
 客户端连接Redis使用的是TCP连接，直连的方式每次都要建立新的TCP连接，而连接池的方式是可以预先初始化好jedis连接，每次只需要从jedis连接池借用即可，借用和归还操作是在本地进行的，只有少量的并发同步开销，远远小于新建TCP连接的开销。
 此外，连接池的方式可以有效保护和控制资源的使用，而直连的方式无法限制jedis对象的个数，并且可能存在连接泄漏的情况。
 
+##### SpringBoot集成Jedis-实现Redis调用实战
+1、引入Jedis依赖
+```java
+<dependency>
+	<groupId>redis.clients</groupId>
+	<artifactId>jedis</artifactId>
+	<version>2.6.2</version>
+</dependency>
 
+	<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-pool2</artifactId>
+	<version>2.6.2</version>
+</dependency>
+```
 
+2、添加Jedis配置（application.properties）
+```java
+#Redis默认库
+spring.redis.database=0
+#Redis地址
+spring.redis.host=10.211.55.6
+#Redis端口
+spring.redis.port=6379
+#Redis密码
+spring.redis.password=
+#控制一个pool可分配多少个jedis实例
+spring.redis.jedis.pool.max-active=100
+#表示borrow一个jedis实例是，最大等待的时间，如果超时，直接抛出jedisConnectionException
+spring.redis.jedis.pool.max-wait=1000
+#控制一个poll最多有多少个状态为idle的jedis实例，超出这个阈值会clonse掉超出的连接
+spring.redis.jedis.pool.max-idle=100
+spring.redis.jedis.pool.min-idle=0
+#Jedis连接超时时间
+spring.redis.timeout=10000
+```
 
+3、配置JedisPool的Bean
+```java
+@Configuration
+public class RedisConfig {
 
+    @Value("${spring.redis.host}")
+    private String host;
 
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+
+    @Bean
+    @ConfigurationProperties("redis")
+    public JedisPoolConfig jedisPoolConfig() {
+        return new JedisPoolConfig();
+    }
+
+    @Bean(destroyMethod = "close")
+    public JedisPool jedisPool() {
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig(), host, port, timeout * 1000);
+        return jedisPool;
+    }
+}
+```
+
+4、封装JedisPool的JedisUtil工具类
+```java
+@Component
+@Slf4j
+public class JedisUtil {
+
+    @Autowired
+    private JedisPool jedisPool;
+
+    /**
+     * @param key
+     * @param indexdb 选择redis库 0-15
+     * @return 成功返回value 失败返回null
+     */
+    public String get(String key, int indexdb) {
+        Jedis jedis = null;
+        String value = null;
+        try {
+            jedis = jedisPool.getResource();
+            jedis.select(indexdb);
+            value = jedis.get(key);
+            log.info(value);
+        } catch (Exception e) {
+
+            log.error(e.getMessage());
+        } finally {
+            returnResource(jedisPool, jedis);
+        }
+        return value;
+    }
+	
+	.....省略其余CMD操作
+		
+}		
+```
+
+5、编写JedisUtil的测试类，进测试
+```java
+@SpringBootTest
+class JedisTest {
+
+    @Autowired
+    private JedisUtil jedisUtil;
+
+    @Test
+    public void testCmd(){
+        jedisUtil.set("name", "ipman", 0);
+        jedisUtil.expire("name", 86400, 0);
+        System.out.println(jedisUtil.get("name", 0));
+        System.out.println(jedisUtil.ttl("name", 0));
+    }
+}
+```
