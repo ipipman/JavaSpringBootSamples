@@ -50,7 +50,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             jedis.select(indexdb);
             value = jedis.get(key);
-            log.info(value);
+            //log.info(value);
         } catch (Exception e) {
 
             log.error(e.getMessage());
