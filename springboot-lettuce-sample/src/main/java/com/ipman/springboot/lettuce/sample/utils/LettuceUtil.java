@@ -48,5 +48,4 @@ public class LettuceUtil {
     public String get(final String key) {
         return executeSync(commands -> commands.get(key));
     }
-
 }
