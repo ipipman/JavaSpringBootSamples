@@ -2,10 +2,11 @@ package com.ipman.springboot.lettuce.sample.config;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 
 /**
  * Created by ipipman on 2021/1/20.
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
  */
 //如果标注了@Configuration，则通过SpringBoot自动扫描注解自动加载，否则需要在入口类中通过@Import手动加载
 @Configuration
-public class LettuceConfig {
+public class LettuceClientConfig {
 
     //Redis服务器地址
     @Value("${spring.redis.host}")
@@ -39,7 +40,9 @@ public class LettuceConfig {
     @Value("${spring.redis.database}")
     private Integer database;
 
-    @Bean
+
+    //Lettuce连接配置（Redis单机版实例）
+    @Bean(name = "redisClient")
     public RedisClient redisClient() {
         RedisURI uri = RedisURI.Builder.redis(this.host, this.port)
                 .withDatabase(this.database)
