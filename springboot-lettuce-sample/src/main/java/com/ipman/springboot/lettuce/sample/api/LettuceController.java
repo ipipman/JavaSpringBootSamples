@@ -43,7 +43,6 @@ public class LettuceController {
      * http://127.0.0.1:8080/lettuce/get?key=name
      *
      * @param key
-     * @param val
      * @return
      */
     @GetMapping("/get")
