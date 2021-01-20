@@ -55,9 +55,11 @@ public class LettucePoolConfig {
         GenericObjectPoolConfig<StatefulRedisConnection<String, String>> redisPoolConfig
                 = new GenericObjectPoolConfig<>();
         redisPoolConfig.setMaxIdle(this.maxIdle);
+        redisPoolConfig.setMinIdle(0);
         redisPoolConfig.setMaxTotal(this.maxTotal);
         redisPoolConfig.setTestOnReturn(this.testOnReturn);
         redisPoolConfig.setTestWhileIdle(this.testWhileIdle);
+        redisPoolConfig.setMaxWaitMillis(1000);
         this.redisConnectionPool =
                 ConnectionPoolSupport.createGenericObjectPool(() -> redisClient.connect(), redisPoolConfig);
     }
