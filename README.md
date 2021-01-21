@@ -5,7 +5,6 @@
 - ##### [SpringBoot集成Seata框架-实现TCC模式柔性事务;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-seata-tcc-sample "SpringBoot集成Seata框架，实现TCC模式柔性事务；")
 - ##### [SpringBoot集成Seata框架-实现AT模式柔性事务;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-seata-at-sample "SpringBoot集成Seata框架，实现AT模式柔性事务；")
 - ##### [SpringBoot集成Sharding-JDBC框架-实现数据库读写分离;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-shardingsphere-jdbc-sample "SpringBoot集成Sharding-JDBC框架，实现数据库读写分离；")
-- ##### [SpringBoot集成Hmily框架-实现TCC模式柔性事务;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-hmily-tcc-sample "SpringBoot集成Hmily框架，实现TCC模式柔性事务；")
 - ##### [SpringBoot集成gRPC框架-实现RPC服务;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-rpc-grpc-sample "SpringBoot集成gRPC框架，实现RPC服务；")
 - ##### [SpringBoot集成Thrift框架-实现RPC服务;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-rpc-thrift-sample "SpringBoot集成Thrift框架，实现RPC服务；")
 - ##### [SpringBoot集成Nacos框架-实现配置中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-nacos-sample "SpringBoot集成Nacos框架-实现配置中心；")
