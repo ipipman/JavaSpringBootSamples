@@ -264,3 +264,225 @@ B~~~~~B~~~~~B~~~~~B~~~~~~~~~~~B |
 
 LFU把原先的key对象内部的24位时钟分为了两个部分，前16位还代表时钟，后8位代表一个计数器。
 使用LFU淘汰时，会根据计数器中key使用的频率精准的淘汰最少使用频率的key。
+
+
+------------
+
+
+### SpringBoot集成Lettuce框架-实现Redis调用实战
+Lettuce是一个高性能基于Java编程的Redis驱动框架，底层集成了Project Reactor提供了天然的反应式编程，通信框架集成了Netty使用非阻塞IO，支持异步与响应式连接。
+
+##### 1、添加Lettuce和apache pool依赖
+    <dependency>
+    	<groupId>org.projectlombok</groupId>
+    	<artifactId>lombok</artifactId>
+    	<version>1.18.10</version>
+    </dependency>
+    
+    <dependency>
+    	<groupId>org.apache.commons</groupId>
+    	<artifactId>commons-pool2</artifactId>
+    	<version>2.9.0</version>
+    </dependency>
+
+##### 2、准备Lettuce连接配置
+```java
+#Redis服务器地址
+spring.redis.host=10.211.55.6
+#Redis服务端口
+spring.redis.port=6379
+#Redis密码
+spring.redis.password=
+#是否需要SSL
+spring.redis.ssl=false
+#Redis默认库，一共0～15
+spring.redis.database=0
+
+#设置可分配的最大Redis实例数量
+spring.redis.pool.maxTotal=20
+#设置最多空闲的Redis实例数量
+spring.redis.pool.maxIdle=5
+#归还Redis实例时，检查有消息，如果失败，则销毁实例
+spring.redis.pool.testOnReturn=true
+#当Redis实例处于空闲状态时检查有效性，默认flase
+spring.redis.pool.testWhileIdle=true
+```
+
+##### 3、Lettuce连接Bean配置LettuceClientConfig
+```java
+//如果标注了@Configuration，则通过SpringBoot自动扫描注解自动加载，否则需要在入口类中通过@Import手动加载
+@Configuration
+public class LettuceClientConfig {
+
+    //Redis服务器地址
+    @Value("${spring.redis.host}")
+    private String host;
+
+    //Redis服务端口
+    @Value("${spring.redis.port}")
+    private Integer port;
+
+    //Redis密码
+    @Value("${spring.redis.password}")
+    private String password;
+
+    //是否需要SSL
+    @Value("${spring.redis.ssl}")
+    private Boolean ssl;
+
+    //Redis默认库，一共0～15
+    @Value("${spring.redis.database}")
+    private Integer database;
+
+
+    //Lettuce连接配置（Redis单机版实例）
+    @Bean(name = "redisClient")
+    public RedisClient redisClient() {
+        RedisURI uri = RedisURI.Builder.redis(this.host, this.port)
+                .withDatabase(this.database)
+                .build();
+        return RedisClient.create(uri);
+    }
+
+}
+```
+
+##### 4、配置Lettuce连接池LettucePoolConfig
+```java
+@Component
+public class LettucePoolConfig {
+
+    @Resource
+    RedisClient redisClient;
+
+    //设置可分配的最大Redis实例数量
+    @Value("${spring.redis.pool.maxTotal}")
+    private Integer maxTotal;
+
+    //设置最多空闲的Redis实例数量
+    @Value("${spring.redis.pool.maxIdle}")
+    private Integer maxIdle;
+
+    //归还Redis实例时，检查有消息，如果失败，则销毁实例
+    @Value("${spring.redis.pool.testOnReturn}")
+    private Boolean testOnReturn;
+
+    //当Redis实例处于空闲壮体啊时检查有效性，默认flase
+    @Value("${spring.redis.pool.testWhileIdle}")
+    private Boolean testWhileIdle;
+
+    //Apache-Common-Pool是一个对象池，用于缓存Redis连接，
+    //因为Letture本身基于Netty的异步驱动，但基于Servlet模型的同步访问时，连接池是必要的
+    //连接池可以很好的复用连接，减少重复的IO消耗与RedisURI创建实例的性能消耗
+    @Getter
+    GenericObjectPool<StatefulRedisConnection<String, String>> redisConnectionPool;
+
+    //Servlet初始化时先初始化Lettuce连接池
+    @PostConstruct
+    private void init() {
+        GenericObjectPoolConfig<StatefulRedisConnection<String, String>> redisPoolConfig
+                = new GenericObjectPoolConfig<>();
+        redisPoolConfig.setMaxIdle(this.maxIdle);
+        redisPoolConfig.setMinIdle(0);
+        redisPoolConfig.setMaxTotal(this.maxTotal);
+        redisPoolConfig.setTestOnReturn(this.testOnReturn);
+        redisPoolConfig.setTestWhileIdle(this.testWhileIdle);
+        redisPoolConfig.setMaxWaitMillis(1000);
+        this.redisConnectionPool =
+                ConnectionPoolSupport.createGenericObjectPool(() -> redisClient.connect(), redisPoolConfig);
+    }
+
+    //Servlet销毁时先销毁Lettuce连接池
+    @PreDestroy
+    private void destroy() {
+        redisConnectionPool.close();
+        redisClient.shutdown();
+    }
+}
+```
+
+##### 5、为了简化Redis指令的操作，便于传入回调函数，这里编写一个抽象的方法
+```java
+@FunctionalInterface
+public interface SyncCommandCallback<T> {
+
+    //抽象方法，为了简化代码，便于传入回调函数
+    T doInConnection(RedisCommands<String, String> commands);
+}
+
+```
+
+##### 6、编写Lettuce工具类，使用同步的方式获取Redis连接，并分装Redis的get和set操作指令
+```java
+@Component
+@Slf4j
+public class LettuceUtil {
+
+    @Autowired
+    LettucePoolConfig lettucePoolConfig;
+
+    //编写executeSync方法，在方法中，获取Redis连接，利用Callback操作Redis，最后释放连接，并返回结果
+    //这里使用的同步的方式执行cmd指令
+    public <T> T executeSync(SyncCommandCallback<T> callback) {
+        //这里利用try的语法糖，执行完，自动给释放连接
+        try (StatefulRedisConnection<String, String> connection = lettucePoolConfig.getRedisConnectionPool().borrowObject()) {
+            //开启自动提交，如果false，命令会被缓冲，调用flushCommand()方法发出
+            connection.setAutoFlushCommands(true);
+            //设置为同步模式
+            RedisCommands<String, String> commands = connection.sync();
+            //执行传入的实现类
+            return callback.doInConnection(commands);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    //分装一个set方法
+    public String set(final String key, final String val) {
+        return executeSync(commands -> commands.set(key, val));
+    }
+
+    //分装一个get方法
+    public String get(final String key) {
+        return executeSync(commands -> commands.get(key));
+    }
+}
+
+```
+
+##### 7、采用Spring的Servlet进行使用与测试
+    @RestController
+    @RequestMapping("/lettuce")
+    public class LettuceController {
+    
+        //加载Lettuce工具类
+        @Autowired
+        LettuceUtil lettuceUtil;
+    
+        /**
+         * 使用Lettuce工具类，调用Redis的Set指令
+         * http://127.0.0.1:8080/lettuce/set?key=name&val=ipipman
+         *
+         * @param key
+         * @param val
+         * @return
+         */
+        @GetMapping("/set")
+        public Object setItem(@RequestParam(name = "key", required = true) String key,
+                              @RequestParam(name = "val", required = true) String val) {
+            return lettuceUtil.set(key, val);
+        }
+    
+        /**
+         * 使用Lettuce工具类，调用Redis的Get指令
+         * http://127.0.0.1:8080/lettuce/get?key=name
+         *
+         * @param key
+         * @return
+         */
+        @GetMapping("/get")
+        public Object getItem(@RequestParam(name = "key", required = true) String key) {
+            return lettuceUtil.get(key);
+        }
+    }
