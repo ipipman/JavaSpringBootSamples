@@ -12,6 +12,7 @@ Redis的IO模型主要基于Epoll实现的，不过它还提供了Select和Kqueu
 Epoll模型属于诸多IO多路服用模型中的一种，但是相比其他IO多路复用模型技术（Select、Poll等）
 
 **Epoll有诸多优点：**
+
 > - Epoll没有最大并发限制，上线是系统最大文件的数目，具体数目可以 cat /proc/sys/fs/file-max 中查看；
 > - 效率提升，Epoll最大的优点就是它只管“活跃”的连接，而跟连接总数无关，因此在实际的网络环境中，Epoll的效率就会远远高于Select和Poll；
 > - 内存拷贝，Epoll在这点上使用了“共享内存”，这个内存拷贝也省略了；
