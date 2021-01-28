@@ -1,0 +1,28 @@
+package com.ipman.springboot.redisson.sample.examples;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+/**
+ * Created by ipipman on 2021/1/28.
+ *
+ * @version V1.0
+ * @Package com.ipman.springboot.redisson.sample.examples
+ * @Description: (用一句话描述该文件做什么)
+ * @date 2021/1/28 8:57 下午
+ */
+@SpringBootTest
+public class RedissonExamplesTest {
+
+    @Autowired
+    RedissonExamples redissonExamples;
+
+    /**
+     * 使用 RLock 实现 Redis 分布式锁测试
+     */
+    @Test
+    public void testLock(){
+        redissonExamples.lock();
+    }
+}
