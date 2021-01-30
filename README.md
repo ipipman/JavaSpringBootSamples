@@ -10,6 +10,7 @@
 - ##### [SpringBoot集成Nacos框架-实现配置中心;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-nacos-sample "SpringBoot集成Nacos框架-实现配置中心；")
 - ##### [SpringBoot集成Jedis框架-实现Redis调用;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-jedis-sample "SpringBoot集成Jedis框架-实现Redis调用；")
 - ##### [SpringBoot集成Lettuce框架-实现Redis调用;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-lettuce-sample "SpringBoot集成Lettuce框架-实现Redis调用；")
+- ##### [SpringBoot集成Redisson框架-实现Redis调用;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springboot-redisson-sample "SpringBoot集成Redisson框架-实现Redis调用；")
 
 
 ### Dubbo相关实例
