@@ -22,7 +22,17 @@ public class RedissonExamplesTest {
      * 使用 RLock 实现 Redis 分布式锁测试
      */
     @Test
-    public void testLock(){
+    public void testLock() {
         redissonExamples.lock();
     }
+
+    /**
+     * 使用 RAtomicLong 实现 Redis 分布式原子操作
+     */
+    @Test
+    public void testAtomicLong() {
+        redissonExamples.atomicLong();
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.ipman.springboot.redisson.sample.examples;
 
 import lombok.SneakyThrows;
+import org.redisson.api.RAtomicLong;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,22 @@ public class RedissonExamples {
         System.out.println("lock released");
 
         t.join();
+    }
+
+    /**
+     * 使用 RAtomicLong 实现 Redis 分布式原子操作
+     */
+    @SneakyThrows
+    public void atomicLong() {
+        RAtomicLong atomicLong = redissonClient.getAtomicLong("atomicLong");
+
+        System.out.println("Init value: " + atomicLong.get());
+
+        atomicLong.incrementAndGet();
+        System.out.println("Current value: " + atomicLong.get());
+
+        atomicLong.addAndGet(1L);
+        System.out.println("Final value: " + atomicLong.get());
     }
 
 }
