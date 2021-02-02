@@ -2,6 +2,7 @@ package com.ipman.springboot.redisson.sample.examples;
 
 import lombok.SneakyThrows;
 import org.redisson.api.RAtomicLong;
+import org.redisson.api.RList;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
@@ -68,4 +69,22 @@ public class RedissonExamples {
         System.out.println("Final value: " + atomicLong.get());
     }
 
+    /**
+     * 基于 Redis 的 Redisson 分布式列表（list）结构的 RList
+     * Java对象实现了 java.util.list 接口的同时，确保了元素插入时的顺序
+     * 对象的最大容容量受 Redis 限制，最大数量是 4294967295 个
+     */
+    @SneakyThrows
+    public void list() {
+        RList<String> list = redissonClient.getList("list");
+        list.add("ip");
+        list.add("man");
+        list.add("ipman");
+        list.remove(-1);
+
+        boolean contains = list.contains("ipman");
+        System.out.println("List size: " + list.size());
+        System.out.println("Is list contains name 'ipman': " + contains);
+        list.forEach(System.out::println);
+    }
 }

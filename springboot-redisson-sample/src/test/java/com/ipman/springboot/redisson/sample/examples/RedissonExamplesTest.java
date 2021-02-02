@@ -34,5 +34,11 @@ public class RedissonExamplesTest {
         redissonExamples.atomicLong();
     }
 
-
+    /**
+     * 使用 RList 实现 Java List 集合的分布式并发操作
+     */
+    @Test
+    public void testList() {
+        redissonExamples.list();
+    }
 }
