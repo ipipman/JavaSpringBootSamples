@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by ipipman on 2021/1/28.
@@ -107,6 +108,45 @@ public class RedissonExamples {
         RFuture<String> futureGet = map.getAsync("ipman");
         System.out.println("Map async put:" + futurePut.get());
         System.out.println("Map async get:" + futureGet.get());
+
+
+        // Map 对象锁，先获取锁，才能操作 Map 集合
+        String k = "mapLock";
+        for (int i = 0; i < 3; i++) {
+            Thread t = new Thread(() -> {
+                RLock keyLock = map.getLock(k);
+                keyLock.lock();
+                try {
+                    String v = map.get("ipman");
+                    System.out.println("Map lock get:" + v + " t:" + Thread.currentThread().getName());
+                    // 其他业务逻辑
+                } finally {
+                    keyLock.unlock();
+                }
+            });
+            t.setName("thread-" + i);
+            t.start();
+        }
+
+        // Map 读写锁，读时不能写
+        for (int i = 0; i < 3; i++) {
+            Thread t = new Thread(() -> {
+                RReadWriteLock rwLock = map.getReadWriteLock(k);
+                rwLock.readLock().lock();
+                try {
+                    String v = map.get("ipman");
+                    System.out.println("Map read write lock get:" + v + " t:" + Thread.currentThread().getName());
+                    // 其他业务逻辑
+                } finally {
+                    rwLock.readLock().unlock();
+                }
+            });
+            t.setName("thread-" + i);
+            t.start();
+        }
+
+        // 阻塞等待
+        System.in.read();
 
     }
 
