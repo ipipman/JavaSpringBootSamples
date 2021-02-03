@@ -101,6 +101,13 @@ public class RedissonExamples {
         // 在 Map 头部写入key
         map.fastPut("ip", "1");
         printMap(map);
+
+        // 异步的方式获取
+        RFuture<String> futurePut = map.putAsync("ipman", "4");
+        RFuture<String> futureGet = map.getAsync("ipman");
+        System.out.println("Map async put:" + futurePut.get());
+        System.out.println("Map async get:" + futureGet.get());
+
     }
 
 
