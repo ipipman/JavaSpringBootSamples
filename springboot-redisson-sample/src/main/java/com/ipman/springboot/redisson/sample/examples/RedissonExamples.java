@@ -109,10 +109,13 @@ public class RedissonExamples {
         System.out.println("Map async put:" + futurePut.get());
         System.out.println("Map async get:" + futureGet.get());
 
+        // 阻塞等待
+        int count = 6;
+        CountDownLatch latch = new CountDownLatch(count);
 
         // Map 对象锁，先获取锁，才能操作 Map 集合
         String k = "mapLock";
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < count / 2; i++) {
             Thread t = new Thread(() -> {
                 RLock keyLock = map.getLock(k);
                 keyLock.lock();
@@ -122,6 +125,7 @@ public class RedissonExamples {
                     // 其他业务逻辑
                 } finally {
                     keyLock.unlock();
+                    latch.countDown();
                 }
             });
             t.setName("thread-" + i);
@@ -129,7 +133,7 @@ public class RedissonExamples {
         }
 
         // Map 读写锁，读时不能写
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < count / 2; i++) {
             Thread t = new Thread(() -> {
                 RReadWriteLock rwLock = map.getReadWriteLock(k);
                 rwLock.readLock().lock();
@@ -139,15 +143,14 @@ public class RedissonExamples {
                     // 其他业务逻辑
                 } finally {
                     rwLock.readLock().unlock();
+                    latch.countDown();
                 }
             });
             t.setName("thread-" + i);
             t.start();
         }
 
-        // 阻塞等待
-        System.in.read();
-
+        latch.await();
     }
 
 
