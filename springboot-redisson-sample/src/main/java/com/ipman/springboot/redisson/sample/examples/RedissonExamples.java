@@ -1,13 +1,12 @@
 package com.ipman.springboot.redisson.sample.examples;
 
 import lombok.SneakyThrows;
-import org.redisson.api.RAtomicLong;
-import org.redisson.api.RList;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ipipman on 2021/1/28.
@@ -86,5 +85,29 @@ public class RedissonExamples {
         System.out.println("List size: " + list.size());
         System.out.println("Is list contains name 'ipman': " + contains);
         list.forEach(System.out::println);
+    }
+
+    /**
+     * 基于 Redis 的 Redisson 的分布式映射结构的 RMap
+     * Java对象实现了 java.util.concurrent.ConcurrentMap 接口和 java.util.Map 接口
+     * 与HashMap不同的是，RMap保持了元素的插入顺序，该对象的最大容量是 4294967295 个
+     */
+    @SneakyThrows
+    public void map() {
+        RMap<String, String> map = redissonClient.getMap("map");
+        String prevVal = map.put("man", "2");
+        // key 空闲时写入
+        String currentVal = map.putIfAbsent("ipman", "3");
+        // 在 Map 头部写入key
+        map.fastPut("ip", "1");
+        printMap(map);
+    }
+
+
+    public static void printMap(Map<String, String> map) {
+        Set<Map.Entry<String, String>> ms = map.entrySet();
+        for (Map.Entry<String, String> entry : ms) {
+            System.out.println("Map key:" + entry.getKey() + " val:" + entry.getValue());
+        }
     }
 }

@@ -41,4 +41,12 @@ public class RedissonExamplesTest {
     public void testList() {
         redissonExamples.list();
     }
+
+    /**
+     * 使用 RMap 实现 Java Map 集合的分布式并发操作
+     */
+    @Test
+    public void testMap() {
+        redissonExamples.map();
+    }
 }
