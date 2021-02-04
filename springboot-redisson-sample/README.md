@@ -266,5 +266,293 @@ B~~~~~B~~~~~B~~~~~B~~~~~~~~~~~B |
 LFU把原先的key对象内部的24位时钟分为了两个部分，前16位还代表时钟，后8位代表一个计数器。
 使用LFU淘汰时，会根据计数器中key使用的频率精准的淘汰最少使用频率的key。
 
-
 ------------
+
+### SpringBoot集成Redisson框架-实现Redis调用
+
+##### 1、添加Redisson的Maven依赖
+```java
+<!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
+<dependency>
+	<groupId>org.redisson</groupId>
+	<artifactId>redisson</artifactId>
+	<version>3.5.0</version>
+</dependency>
+```
+
+##### 2、在application.properties配置文件中添加Redisson配置
+```java
+#redis链接地址
+spring.redisson.address=redis://10.211.55.6:6379
+#当前处理核数量 * 2
+spring.redisson.thread=4
+#指定编解码
+spring.redisson.codec=org.redisson.codec.JsonJacksonCodec;
+#最小空闲连接数,默认值:10,最小保持连接数（长连接）
+spring.redisson.connectionMinimumIdleSize=12
+#连接空闲超时，单位：毫秒 默认10000;当前连接池里的连接数量超过了最小空闲连接数，
+#而连接空闲时间超过了该数值，这些连接将会自动被关闭，并从连接池里去掉
+spring.redisson.idleConnectionTimeout=10000
+#ping节点超时,单位：毫秒,默认1000
+spring.redisson.pingTimeout=1000
+#连接等待超时,单位：毫秒,默认10000
+spring.redisson.connectTimeout=10000
+#命令等待超时,单位：毫秒,默认3000；等待节点回复命令的时间。该时间从命令发送成功时开始计时
+spring.redisson.timeout=3000
+#命令失败重试次数，默认值:3
+spring.redisson.retryAttempts=2
+#命令重试发送时间间隔，单位：毫秒,默认值:1500
+spring.redisson.retryInterval=1500
+#重新连接时间间隔，单位：毫秒,默认值：3000;连接断开时，等待与其重新建立连接的时间间隔
+spring.redisson.reconnectionTimeout=3000
+#执行失败最大次数, 默认值：3；失败后直到 reconnectionTimeout超时以后再次尝试。
+spring.redisson.failedAttempts=2
+#身份验证密码
+#spring.redisson.password=
+#单个连接最大订阅数量，默认值：5
+spring.redisson.subscriptionsPerConnection=5
+#客户端名称
+#spring.redisson.clientName=
+#发布和订阅连接的最小空闲连接数，默认值：1；Redisson内部经常通过发布和订阅来实现许多功能。
+#长期保持一定数量的发布订阅连接是必须的
+spring.redisson.subscriptionConnectionMinimumIdleSize=1
+#发布和订阅连接池大小，默认值：50
+spring.redisson.subscriptionConnectionPoolSize=50
+#连接池最大容量。默认值：64；连接池的连接数量自动弹性伸缩
+spring.redisson.connectionPoolSize=64
+#数据库编号，默认值：0
+spring.redisson.database=0
+#是否启用DNS监测，默认值：false
+spring.redisson.dnsMonitoring=false
+#DNS监测时间间隔，单位：毫秒，默认值：5000
+spring.redisson.dnsMonitoringInterval=5000 
+```
+
+##### 3、配置RedissonCofnig的Bean
+```java
+@Configuration
+@ConfigurationProperties(prefix = "spring.redisson")
+@Setter
+@Getter
+public class RedissonConfig {
+
+    //redis链接地址
+    private String address;
+    //最小空闲连接数,默认值:10,最小保持连接数（长连接）
+    private int connectionMinimumIdleSize;
+    //连接空闲超时，单位：毫秒 默认10000;当前连接池里的连接数量超过了最小空闲连接数，
+    //而连接空闲时间超过了该数值，这些连接将会自动被关闭，并从连接池里去掉
+    private int idleConnectionTimeout;
+    //ping节点超时,单位：毫秒,默认1000
+    private int pingTimeout;
+    //连接等待超时,单位：毫秒,默认10000
+    private int connectTimeout;
+    //命令等待超时,单位：毫秒,默认3000；等待节点回复命令的时间。该时间从命令发送成功时开始计时
+    private int timeout;
+    //命令失败重试次数，默认值:3
+    private int retryAttempts;
+    //命令重试发送时间间隔，单位：毫秒,默认值:1500
+    private int retryInterval;
+    //重新连接时间间隔，单位：毫秒,默认值：3000;连接断开时，等待与其重新建立连接的时间间隔
+    private int reconnectionTimeout;
+    //执行失败最大次数, 默认值：3；失败后直到 reconnectionTimeout超时以后再次尝试。
+    private int failedAttempts;
+    //身份验证密码
+    private String password;
+    //单个连接最大订阅数量，默认值：5
+    private int subscriptionsPerConnection;
+    //客户端名称
+    private String clientName;
+    //长期保持一定数量的发布订阅连接是必须的
+    private int subscriptionConnectionMinimumIdleSize;
+    //发布和订阅连接池大小，默认值：50
+    private int subscriptionConnectionPoolSize;
+    //发布和订阅连接池大小，默认值：50
+    private int connectionPoolSize;
+    //数据库编号，默认值：0
+    private int database;
+    //是否启用DNS监测，默认值：false
+    private boolean dnsMonitoring;
+    //DNS监测时间间隔，单位：毫秒，默认值：5000
+    private int dnsMonitoringInterval;
+    //当前处理核数量 * 2
+    private int thread;
+
+    @Bean
+    public RedissonClient redisson() throws Exception {
+        System.out.println(address);
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress(address)
+                .setConnectionMinimumIdleSize(connectionMinimumIdleSize)
+                .setConnectionPoolSize(connectionPoolSize)
+                .setDatabase(database)
+                .setDnsMonitoring(dnsMonitoring)
+                .setDnsMonitoringInterval(dnsMonitoringInterval)
+                .setSubscriptionConnectionMinimumIdleSize(subscriptionConnectionMinimumIdleSize)
+                .setSubscriptionConnectionPoolSize(subscriptionConnectionPoolSize)
+                .setSubscriptionsPerConnection(subscriptionsPerConnection)
+                .setClientName(clientName)
+                .setFailedAttempts(failedAttempts)
+                .setRetryAttempts(retryAttempts)
+                .setRetryInterval(retryInterval)
+                .setReconnectionTimeout(reconnectionTimeout)
+                .setTimeout(timeout)
+                .setConnectTimeout(connectTimeout)
+                .setIdleConnectionTimeout(idleConnectionTimeout)
+                .setPingTimeout(pingTimeout)
+                .setPassword(password);
+
+        return Redisson.create(config);
+    }
+}
+```
+
+##### 5、使用 RLock 实现 Redis 分布式锁
+```java
+    /**
+     * 使用 RLock 实现 Redis 分布式锁
+     * RLock 是 Java 中可重入锁的分布式实现
+     */
+    @SneakyThrows
+    public void lock() {
+        // RLock 继承了 java.util.concurrent.locks.Lock 接口
+        RLock lock = redissonClient.getLock("lock");
+        lock.lock();
+        System.out.println("lock acquired");
+
+        Thread t = new Thread(() -> {
+            RLock lock1 = redissonClient.getLock("lock");
+            lock1.lock();
+            System.out.println("lock acquired by thread");
+            lock1.unlock();
+            System.out.println("lock released by thread");
+        });
+        t.start();
+
+        System.out.println("lock sleep begin");
+        Thread.sleep(1000);
+        System.out.println("lock sleep end");
+
+        lock.unlock();
+        System.out.println("lock released");
+
+        t.join();
+    }
+```
+
+##### 6、使用 RAtomicLong 实现 Redis 分布式原子操作
+```java
+    /**
+     * 使用 RAtomicLong 实现 Redis 分布式原子操作
+     */
+    @SneakyThrows
+    public void atomicLong() {
+        RAtomicLong atomicLong = redissonClient.getAtomicLong("atomicLong");
+        System.out.println("Init value: " + atomicLong.get());
+
+        atomicLong.incrementAndGet();
+        System.out.println("Current value: " + atomicLong.get());
+
+        atomicLong.addAndGet(1L);
+        System.out.println("Final value: " + atomicLong.get());
+    }
+```
+
+##### 7、基于 Redis 的 Redisson 分布式列表（list）结构的 RList
+```java
+    /**
+     * 基于 Redis 的 Redisson 分布式列表（list）结构的 RList
+     * Java对象实现了 java.util.list 接口的同时，确保了元素插入时的顺序
+     * 对象的最大容容量受 Redis 限制，最大数量是 4294967295 个
+     */
+    @SneakyThrows
+    public void list() {
+        RList<String> list = redissonClient.getList("list");
+        list.add("ip");
+        list.add("man");
+        list.add("ipman");
+        list.remove(-1);
+
+        boolean contains = list.contains("ipman");
+        System.out.println("List size: " + list.size());
+        System.out.println("Is list contains name 'ipman': " + contains);
+        list.forEach(System.out::println);
+    }
+```
+
+##### 8、基于 Redis 的 Redisson 的分布式映射结构的 RMap
+```java
+ /**
+     * 基于 Redis 的 Redisson 的分布式映射结构的 RMap
+     * Java对象实现了 java.util.concurrent.ConcurrentMap 接口和 java.util.Map 接口
+     * 与HashMap不同的是，RMap保持了元素的插入顺序，该对象的最大容量是 4294967295 个
+     */
+    @SneakyThrows
+    public void map() {
+        RMap<String, String> map = redissonClient.getMap("map");
+        String prevVal = map.put("man", "2");
+        // key 空闲时写入
+        String currentVal = map.putIfAbsent("ipman", "3");
+        // 在 Map 头部写入key
+        map.fastPut("ip", "1");
+        printMap(map);
+
+        // 异步的方式获取
+        RFuture<String> futurePut = map.putAsync("ipman", "4");
+        RFuture<String> futureGet = map.getAsync("ipman");
+        System.out.println("Map async put:" + futurePut.get());
+        System.out.println("Map async get:" + futureGet.get());
+
+        // 阻塞等待
+        int count = 6;
+        CountDownLatch latch = new CountDownLatch(count);
+
+        // Map 对象锁，先获取锁，才能操作 Map 集合
+        String k = "mapLock";
+        for (int i = 0; i < count / 2; i++) {
+            Thread t = new Thread(() -> {
+                RLock keyLock = map.getLock(k);
+                keyLock.lock();
+                try {
+                    String v = map.get("ipman");
+                    System.out.println("Map lock get:" + v + " t:" + Thread.currentThread().getName());
+                    // 其他业务逻辑
+                } finally {
+                    keyLock.unlock();
+                    latch.countDown();
+                }
+            });
+            t.setName("thread-" + i);
+            t.start();
+        }
+
+        // Map 读写锁，读时不能写
+        for (int i = 0; i < count / 2; i++) {
+            Thread t = new Thread(() -> {
+                RReadWriteLock rwLock = map.getReadWriteLock(k);
+                rwLock.readLock().lock();
+                try {
+                    String v = map.get("ipman");
+                    System.out.println("Map read write lock get:" + v + " t:" + Thread.currentThread().getName());
+                    // 其他业务逻辑
+                } finally {
+                    rwLock.readLock().unlock();
+                    latch.countDown();
+                }
+            });
+            t.setName("thread-" + i);
+            t.start();
+        }
+
+        latch.await();
+    }
+
+
+    public static void printMap(Map<String, String> map) {
+        Set<Map.Entry<String, String>> ms = map.entrySet();
+        for (Map.Entry<String, String> entry : ms) {
+            System.out.println("Map key:" + entry.getKey() + " val:" + entry.getValue());
+        }
+    }
+```

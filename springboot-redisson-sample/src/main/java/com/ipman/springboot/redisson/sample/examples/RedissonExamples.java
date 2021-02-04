@@ -59,7 +59,6 @@ public class RedissonExamples {
     @SneakyThrows
     public void atomicLong() {
         RAtomicLong atomicLong = redissonClient.getAtomicLong("atomicLong");
-
         System.out.println("Init value: " + atomicLong.get());
 
         atomicLong.incrementAndGet();
