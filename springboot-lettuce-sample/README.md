@@ -269,6 +269,27 @@ LFU把原先的key对象内部的24位时钟分为了两个部分，前16位还�
 
 ------------
 
+### Jedis、Lettuce、Redisson客户端框架介绍以及对比
+
+#### 一、概念
+Jedis：是老牌的Redis的Java实现客户端，提供了比较全面的Redis命令的支持；
+Redisson：实现了分布式和扩展的Java数据结构；
+Lettuce：高级Redis客户端，用于线程安全同步，异步和相应使用，支持集群、Sentinel，管道和编码器
+
+#### 二、优点
+Jedis：比较全面的提供了Redis的操作特性；
+Redisson：促使使用者对Redis的关注分离，提供很多分布式相关操作服务，例如（分布式锁、分布式集合），可以通过Redis支持延迟队列；
+Lettuce：基于Netty框架的事件驱动的通信层，其方法调用是异步的。Lettuce的API是线程安全的，所以可以操作单个Lettuce连接来完成各种操作；
+
+#### 三、可伸缩
+Jedis：使用阻塞的I/O，且其方法调用都是同步的，程序流需要等到Sockets处理完I/O才能使用，不支持异步。Jedis客户端实例不是线程安全的，所以要使用连接池配合使用Jedis；
+Redisson：基于Netty框架的事件驱动的通信层，其方法调用是异步的。Redisson的API是线程安全的，所以可以操作单个Redisson连接来完成各种操作；
+Lettuce：基于Netty框架事件驱动的通信层，其方法调用是异步的。Lettuce的API是现成安全的，所以可以操作单个Lettuce连接来完成各种操作。Lettuce能够支持Redis4，需要Java8以上版本。
+
+
+
+------------
+
 
 ### SpringBoot集成Lettuce框架-实现Redis调用实战
 Lettuce是一个高性能基于Java编程的Redis驱动框架，底层集成了Project Reactor提供了天然的反应式编程，通信框架集成了Netty使用非阻塞IO，支持异步与响应式连接。
