@@ -120,7 +120,7 @@ AOF（Append Only File）持久化是把每次写的命令追加写入日志中�
 #### Redis集群
 Redis Cluster 是Redis 的分布式解决方案，在3.0版本推出后有效的解决了redis分布式方面的需求，自动将数据分片，每个master上放一部分数据，提供内置的高可用支持，部分master不可以时还是可以继续工作；
 
-**Redis clsuter vs. Master/Slave + Sentinal：**
+**Redis Clsuter vs. Master/Slave + Sentinal：**
 
 > - 主从+哨兵模式一个master、多个slave，master负责读写，slave负责复制master数据和提供读服务，配合sentinal集群，可以保证master/slave故障自动切换时高可用；
 > - redis集群模式，主要针对海量数据+高并发+高可用场景；
@@ -139,8 +139,8 @@ redis cluster节点间采取gossip协议进行通信。
 gossip算法如其名，灵感来自办公室的八卦，在有限的时间内所有人都会知道该八卦信息。
 市面上集群中的元数据同步分为两种，集中式、最终一致性，gossip追求的是最终一致性：
 
-> - 集中式：如zookeeper、etcd，好处在于元数据的跟新和读取，时效性非常好，一旦数据出现变更，立即更新到集中式的存储中，其他节电读取的时候立即就能感知到，坏处是集中式存储的元数据一旦出现故障，会导致短期内不能正常提供服务；
-> - gossip：好处在于，元数据的跟新比较分散，不是集中在一个地方，元数据更新会陆陆续续，跟新到所有节点上，有一定的延迟，但是提升了可用性；
+> - 集中式：如zookeeper、etcd，好处在于元数据的更新和读取，时效性非常好，一旦数据出现变更，立即更新到集中式的存储中，其它节点读取的时候立即就能感知到，坏处是集中式存储的元数据一旦出现故障，会导致短期内不能正常提供服务；
+> - gossip：好处在于，元数据的更新比较分散，不是集中在一个地方，元数据更新会陆陆续续，更新到所有节点上，有一定的延迟，但是提升了可用性；
 
 gossip协议包含多种消息，包括：ping、pong、meet、fail等：
 
@@ -286,10 +286,7 @@ Jedis：使用阻塞的I/O，且其方法调用都是同步的，程序流需要
 Redisson：基于Netty框架的事件驱动的通信层，其方法调用是异步的。Redisson的API是线程安全的，所以可以操作单个Redisson连接来完成各种操作；
 Lettuce：基于Netty框架事件驱动的通信层，其方法调用是异步的。Lettuce的API是现成安全的，所以可以操作单个Lettuce连接来完成各种操作。Lettuce能够支持Redis4，需要Java8以上版本。
 
-
-
 ------------
-
 
 ### SpringBoot集成Lettuce框架-实现Redis调用实战
 Lettuce是一个高性能基于Java编程的Redis驱动框架，底层集成了Project Reactor提供了天然的反应式编程，通信框架集成了Netty使用非阻塞IO，支持异步与响应式连接。
