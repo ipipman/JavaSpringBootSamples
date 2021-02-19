@@ -23,7 +23,7 @@ Ribbon是Netflix公司开源的基于客户端的负载均衡组件，可以简�
 
 #### Ribbon的核心接口组成部分
 | 接口  | 作用  | 默认值  |
-| ------------ | ------------ | ------------ | ------------ |
+| ------------ | ------------ | ------------ |
 | IClientConfig  | 读取配置  | DefultClientConfigImpl  |
 | IRule  | 负载均衡规则，选择实例  | ZoneAvoidanceRule  |
 | IPing  | 筛选掉Ping不通的实例  | DummyPing  |
