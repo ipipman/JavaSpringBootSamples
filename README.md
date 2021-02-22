@@ -38,10 +38,5 @@
 - ##### [SpringCloud集成Nacos+Ribbon框架-实现注册中心和负载均衡;](https://github.com/ipipman/JavaSpringBootSamples/tree/master/springcloud-nacos-ribbon-sample "SpringCloud集成Nacos+Ribbon框架-实现注册中心和负载均衡")
 
 ### 关于作者
-<<<<<<< HEAD
-=======
-- test
-- 22
-- xiaofangmoon
->>>>>>> a22a77545ddb72fe452b5fc640bafc9aad4fcc36
+
 
