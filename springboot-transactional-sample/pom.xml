@@ -48,6 +48,10 @@
 					<artifactId>mybatis</artifactId>
 					<groupId>org.mybatis</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>jsqlparser</artifactId>
+					<groupId>com.github.jsqlparser</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -75,6 +79,13 @@
 			<artifactId>druid</artifactId>
 			<version>1.0.15</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>4.1.6</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
