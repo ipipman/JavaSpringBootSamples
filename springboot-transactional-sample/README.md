@@ -34,3 +34,8 @@ Propagation 属性确定代理应该对那些方法增加事务行为，这样�
 
 #### （六）PROPAGATION_NEVER
 不能在事务中运行，该事务传播级别要求中不能存在事务，一旦有事务，就抛出runtime异常，强制停止执行
+
+#### （七）PROPAGATION_NESTED
+理解Nested的关键是savepoint
+它与PROPAGATION_REQUIRES_NEW的区别是，PROPAGATION_REQUIRES_NEW另起一个事务，将会与它的父事务相互独立
+而Nested的事务和它的父事务是相依的，它的提交是要等和它的父事务一块提交的。也就是说，如果父事务最后回滚，它也要回滚的
