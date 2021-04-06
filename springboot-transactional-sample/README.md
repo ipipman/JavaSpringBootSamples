@@ -15,3 +15,7 @@ Propagation 属性确定代理应该对那些方法增加事务行为，这样�
 注解用法比如：@Transactional（propagation = Propagation.REQUIRED）
 默认的 spring 事务传播级别，使用该级别的特点是：如果上下文中已经存在事务，那么就加入到事务中执行，如果当前上下文不存在事务，则新建事务执行。在大多数业务场景下通常都能满足。
 
+#### （二）PROPAGATION_SUPPORTS
+该传播级别的特点是：如果上下文存在事务，则支持事务加入事务，如果没有事务，则使用非事务的方式执行。所以说，并非所有的包在transactionTemplate.execute中的代码都会有事务支持。这个通常是用来处理那些非原子性的非核心业务逻辑操作。
+
+
