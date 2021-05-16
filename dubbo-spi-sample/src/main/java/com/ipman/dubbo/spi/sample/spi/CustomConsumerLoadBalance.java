@@ -33,7 +33,7 @@ public class CustomConsumerLoadBalance extends RandomLoadBalance implements Load
                         + "，doSelect=" + u.getAddress() + ":" + u.getPort());
                 return t;
             } catch (Exception e) {
-                // no e
+                // throw e
             }
         }
         return null;
