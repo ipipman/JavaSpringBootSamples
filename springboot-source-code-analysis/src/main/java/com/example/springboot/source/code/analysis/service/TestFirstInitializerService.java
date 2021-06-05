@@ -41,7 +41,7 @@ public class TestFirstInitializerService implements ApplicationContextAware {
     /**
      * 获取在框架初始化器阶段设置的配置信息
      */
-    public String getCustomEnvironmentProperty() {
-        return Optional.ofNullable(applicationContext.getEnvironment().getProperty("key1")).orElse(null);
+    public String getCustomEnvironmentProperty(final String propertyKey) {
+        return Optional.ofNullable(applicationContext.getEnvironment().getProperty(propertyKey)).orElse(null);
     }
 }

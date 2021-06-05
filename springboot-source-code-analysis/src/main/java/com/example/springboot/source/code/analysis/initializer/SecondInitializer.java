@@ -19,10 +19,10 @@ import java.util.Map;
  * @date 2021/6/5
  * @date 2021/6/5 8:20 下午
  */
-@Order(1) // 设置执行顺序
-public class FirstInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+@Order(2) // 设置执行顺序
+public class SecondInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    private static final Logger logger =  LoggerFactory.getLogger(FirstInitializer.class);
+    private static final Logger logger =  LoggerFactory.getLogger(SecondInitializer.class);
 
     @Override
     public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
@@ -32,11 +32,11 @@ public class FirstInitializer implements ApplicationContextInitializer<Configura
 
         // 设置自定义属性
         Map<String, Object> attributeMap = new HashMap<>();
-        attributeMap.put("firstKey", "firstValue");
+        attributeMap.put("secondKey", "secondValue");
 
         // 添加自定义属性
-        MapPropertySource mapPropertySource = new MapPropertySource("firstInitializer", attributeMap);
+        MapPropertySource mapPropertySource = new MapPropertySource("secondInitializer", attributeMap);
         environment.getPropertySources().addLast(mapPropertySource);
-        logger.info("设置框架初始化器【ApplicationContextInitializer】成功 : run firstInitializer");
+        logger.info("设置框架初始化器【ApplicationContextInitializer】成功 : run secondInitializer");
     }
 }
