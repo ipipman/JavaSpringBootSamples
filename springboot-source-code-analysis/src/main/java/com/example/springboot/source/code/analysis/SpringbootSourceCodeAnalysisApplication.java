@@ -9,5 +9,4 @@ public class SpringbootSourceCodeAnalysisApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringbootSourceCodeAnalysisApplication.class, args);
     }
-
 }
