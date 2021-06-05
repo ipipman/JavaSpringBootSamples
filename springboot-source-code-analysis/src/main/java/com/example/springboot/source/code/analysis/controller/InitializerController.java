@@ -24,7 +24,7 @@ public class InitializerController {
 
     /**
      * 测试框架初始化器 ApplicationContextInitializer
-     * 通过 META-INF/spring.factories 配置 ApplicationContextInitializer 的方式
+     * 通过在 META-INF/spring.factories 中配置 ApplicationContextInitializer 的方式
      */
     @RequestMapping(value = "first", method = RequestMethod.GET)
     @ResponseBody
@@ -39,7 +39,16 @@ public class InitializerController {
     @RequestMapping(value = "second", method = RequestMethod.GET)
     @ResponseBody
     public String testSecondInitializer() {
-        return firstInitializerService.getCustomEnvironmentProperty("second");
+        return firstInitializerService.getCustomEnvironmentProperty("secondKey");
     }
 
+    /**
+     * 测试框架初始化器 ApplicationContextInitializer
+     * 通过在 application.property 中配置 context.initializer.classes 的方式
+     */
+    @RequestMapping(value = "third", method = RequestMethod.GET)
+    @ResponseBody
+    public String testThirdInitializer() {
+        return firstInitializerService.getCustomEnvironmentProperty("thirdKey");
+    }
 }

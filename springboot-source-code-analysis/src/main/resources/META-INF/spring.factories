@@ -1,4 +1,4 @@
-#通过系统初始化器，设置自定义环境配置
+# 通过系统初始化器，设置自定义环境属性
 org.springframework.context.ApplicationContextInitializer=\
   com.example.springboot.source.code.analysis.initializer.FirstInitializer
 
