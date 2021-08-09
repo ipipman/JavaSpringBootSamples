@@ -1,5 +1,7 @@
 package com.example.springboot.source.code.analysis.event;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created by ipipman on 2021/8/3.
  *
@@ -10,6 +12,7 @@ package com.example.springboot.source.code.analysis.event;
  */
 
 // 下雪监听器
+@Component
 public class SnowListener implements WeatherListener {
 
     @Override

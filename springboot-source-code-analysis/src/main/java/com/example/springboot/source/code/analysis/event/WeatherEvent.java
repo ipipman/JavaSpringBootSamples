@@ -15,4 +15,5 @@ public abstract class WeatherEvent {
 
     // 获取当前天气的事件
     public abstract String getWeather();
+
 }

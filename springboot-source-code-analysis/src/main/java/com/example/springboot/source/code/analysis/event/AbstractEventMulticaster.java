@@ -1,5 +1,8 @@
 package com.example.springboot.source.code.analysis.event;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -14,10 +17,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 
 // 抽象的事件广播器
+@Component
 public abstract class AbstractEventMulticaster implements EventMulticaster {
 
     // 事件监听器列表
-    private List<WeatherListener> listenerList = new CopyOnWriteArrayList<>();
+    @Autowired
+    private List<WeatherListener> listenerList;
 
     @Override
     public void multicastEvent(WeatherEvent event) {
