@@ -2,3 +2,7 @@
 org.springframework.context.ApplicationContextInitializer=\
   com.example.springboot.source.code.analysis.initializer.FirstInitializer
 
+
+# 通过系统事件监听器，设置自定义事件监听器
+org.springframework.context.ApplicationListener=\
+  com.example.springboot.source.code.analysis.listener.FirstListener

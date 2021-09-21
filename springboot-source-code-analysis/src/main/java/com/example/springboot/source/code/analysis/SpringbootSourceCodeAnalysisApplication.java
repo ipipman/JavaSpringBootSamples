@@ -1,6 +1,7 @@
 package com.example.springboot.source.code.analysis;
 
 import com.example.springboot.source.code.analysis.initializer.SecondInitializer;
+import com.example.springboot.source.code.analysis.listener.SecondListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,6 +14,9 @@ public class SpringbootSourceCodeAnalysisApplication {
 
         // 手动添加一个框架的初始化器
         springApplication.addInitializers(new SecondInitializer());
+
+        // 手动添加一个框架事件监听器
+        springApplication.addListeners(new SecondListener());
 
         springApplication.run();
 
