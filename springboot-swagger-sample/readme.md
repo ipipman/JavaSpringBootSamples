@@ -139,5 +139,5 @@ public class UserController {
 
 #### 启动项目，访问Swagger-UI：http://127.0.0.1:8080/swagger-ui.html#/%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%8F%A3
 
-<img src="/Users/huangyan110110114/Library/Application Support/typora-user-images/image-20210922203731622.png" alt="image-20210922203731622" width="1200" align="left" />
+<img src="https://tva1.sinaimg.cn/large/008i3skNly1gupou0n2umj31nb0u0jvh.jpg" alt="image-20210922203731622" width="1200" align="left" />
 
