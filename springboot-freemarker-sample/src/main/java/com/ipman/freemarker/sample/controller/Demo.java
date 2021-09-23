@@ -56,5 +56,4 @@ public class Demo {
         return model;
     }
 
-
 }
