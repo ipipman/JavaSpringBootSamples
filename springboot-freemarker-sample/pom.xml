@@ -44,6 +44,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.andrewoma.dexx</groupId>
+            <artifactId>dexx-collections</artifactId>
+            <version>0.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
