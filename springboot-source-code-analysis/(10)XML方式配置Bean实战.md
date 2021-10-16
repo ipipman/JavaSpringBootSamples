@@ -53,7 +53,7 @@ public class Student {
 > 无参构造器xml定义
 
 ```java
-    <bean id="student" class="com.example.springboot.source.code.analysis.xml.Student">
+    <bean id="student" class="com.example.springboot.source.code.analysis.ioc.xml.Student">
         <property name="name" value="zhangsan"/>
         <property name="age" value="13"/>
         <property name="classList">
@@ -129,7 +129,7 @@ public class Student {
 > 定义有参数构造器xml配置
 
 ```java
-    <bean id="student" class="com.example.springboot.source.code.analysis.xml.Student">
+    <bean id="student" class="com.example.springboot.source.code.analysis.ioc.xml.Student">
         <!--   有参构造器     -->
         <constructor-arg index="0" value="zhangsan"/>
         <constructor-arg index="1" value="13"/>
@@ -242,18 +242,18 @@ public class HelloService {
 > 静态工厂方法 和 实例工厂方法 XML 配置
 
 ```java
-    <bean id="helloService" class="com.example.springboot.source.code.analysis.xml.HelloService">
+    <bean id="helloService" class="com.example.springboot.source.code.analysis.ioc.xml.HelloService">
         <property name="student" ref="student"/>
         <property name="animal" ref="cat"/>
     </bean>
 
     <!-- 静态工厂类  -->
-    <bean id="dog" class="com.example.springboot.source.code.analysis.xml.AnimalFactory" factory-method="getAnimal">
+    <bean id="dog" class="com.example.springboot.source.code.analysis.ioc.xml.AnimalFactory" factory-method="getAnimal">
         <constructor-arg value="Dog"/>
     </bean>
 
     <!-- 实例工厂类  -->
-    <bean name="animalFactory" class="com.example.springboot.source.code.analysis.xml.AnimalFactory"/>
+    <bean name="animalFactory" class="com.example.springboot.source.code.analysis.ioc.xml.AnimalFactory"/>
     <bean id="cat" factory-bean="animalFactory" factory-method="getAnimal1">
         <constructor-arg value="Cat"/>
     </bean>
