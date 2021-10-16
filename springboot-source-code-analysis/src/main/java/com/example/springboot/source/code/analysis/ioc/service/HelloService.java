@@ -23,7 +23,11 @@ public class HelloService {
      * animal
      */
     @Autowired
-    @Qualifier("myCatFactoryBean") // 如果有多个同类型的Bean，那么用@Qualifier指定Bean的名称后进行注入
+    // 如果有多个同类型的Bean，那么用@Qualifier指定Bean的名称后进行注入
+    //@Qulifier("dog") // 通过@Configuration注解进行Bean注入
+    //@Qualifier("myCatFactoryBean") // 通过FacotryBean<?>接口进行Bean注入
+    //@Qualifier("monkey") // 通过BeanDefinitionRegistryPostProcessor接口进行Bean注入
+
     private Animal animal;
 
 
