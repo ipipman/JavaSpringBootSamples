@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @date 2021/10/16 12:15 下午
  */
 @Component
-public class MyCatFactoryBean implements FactoryBean<Animal> {
+public class MyFactoryBean implements FactoryBean<Animal> {
 
     @Override
     public Animal getObject() throws Exception {

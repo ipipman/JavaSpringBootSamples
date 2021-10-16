@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyBeanDefinitionRegistry implements BeanDefinitionRegistryPostProcessor {
 
+    /**
+     * 通过BeanDefinitionRegistryPostProcessor
+     */
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {
         RootBeanDefinition rootBeanDefinition = new RootBeanDefinition();

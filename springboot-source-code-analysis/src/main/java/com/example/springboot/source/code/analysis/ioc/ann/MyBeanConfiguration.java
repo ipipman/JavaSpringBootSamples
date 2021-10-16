@@ -16,6 +16,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MyBeanConfiguration {
 
+    /**
+     * 通过 @Configuration注解 注入一个Bean
+     */
     @Bean("dog")
     public Animal getDog() {
         return new Dog();
