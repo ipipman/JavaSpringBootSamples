@@ -17,11 +17,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyFactoryBean implements FactoryBean<Animal> {
 
+    /**
+     * 返回要注入的类
+     */
     @Override
     public Animal getObject() throws Exception {
         return new Cat();
     }
 
+    /**
+     * 获取要注入类的类型
+     */
     @Override
     public Class<?> getObjectType() {
         return Animal.class;
@@ -31,4 +37,5 @@ public class MyFactoryBean implements FactoryBean<Animal> {
     public boolean isSingleton() {
         return FactoryBean.super.isSingleton();
     }
+
 }
