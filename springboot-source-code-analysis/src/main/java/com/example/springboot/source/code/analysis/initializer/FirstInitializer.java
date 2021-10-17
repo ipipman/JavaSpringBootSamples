@@ -30,6 +30,9 @@ public class FirstInitializer implements ApplicationContextInitializer<Configura
         ConfigurableEnvironment environment =
                 configurableApplicationContext.getEnvironment();
 
+        // 设置必填属性
+        environment.setRequiredProperties("app.enviroment");
+
         // 设置自定义属性
         Map<String, Object> attributeMap = new HashMap<>();
         attributeMap.put("firstKey", "firstValue");
