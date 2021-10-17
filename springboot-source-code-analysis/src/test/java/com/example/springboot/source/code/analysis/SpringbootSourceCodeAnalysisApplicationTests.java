@@ -3,6 +3,7 @@ package com.example.springboot.source.code.analysis;
 import com.example.springboot.source.code.analysis.event.RainListener;
 import com.example.springboot.source.code.analysis.event.WeatherRunListener;
 import com.example.springboot.source.code.analysis.ioc.ann.MyImportBeanDefinitionRegistrar;
+import com.example.springboot.source.code.analysis.ioc.pojo.DemoBean;
 import com.example.springboot.source.code.analysis.ioc.service.HelloService;
 import com.example.springboot.source.code.analysis.listener.ApplicationContextContainer;
 import org.junit.Test;
@@ -52,6 +53,15 @@ public class SpringbootSourceCodeAnalysisApplicationTests {
 
     @Test
     public void contextLoads() {
+    }
+
+
+    @Autowired
+    DemoBean demoBean;
+
+    @Test
+    public void sayDemoBean(){
+        System.out.println(demoBean.getName());
     }
 
 
