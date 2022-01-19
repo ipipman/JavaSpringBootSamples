@@ -24,7 +24,7 @@
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-      // 获取BeanFacotry
+      // 获取BeanFacotry -> DefaultListablesBeanFacotory
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
